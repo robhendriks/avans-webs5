@@ -29,5 +29,7 @@ require('./modules/socialAuth')(app, passport);
 
 app.use('/', require('./routes'))
 app.use('/auth', require('./routes/auth'));
+app.use('/api/v1/waypoints', require('./routes/waypoints'));
+app.use('/api/v1/races', require('./routes/races'));
 
 module.exports = app;

@@ -19,6 +19,10 @@
           <ul class="nav navbar-nav">
             <li><a href="/waypoints">Waypoints</a></li>
             <li><a href="/races">Races</a></li>
+
+            {{#if user.isAdmin}}
+              <li><a href="/docs">API Documentation</a></li>
+            {{/if}}
           </ul>
           
           <ul class="nav navbar-nav navbar-right">

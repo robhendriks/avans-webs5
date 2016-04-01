@@ -2,6 +2,7 @@ var Auth = {
 
   urls: {
     'default': '/auth/signin',
+    'admin': '/',
     'guest': '/'
   },
 
