@@ -1,0 +1,29 @@
+<form method="post" class="form-signin">
+  <h1>Pub Crawl</h1>
+  <p class="lead">Please sign in</p>
+
+  <div class="form-group">
+    <label for="email" class="sr-only">Email address</label>
+    <input type="email" class="form-control" name="email" placeholder="Email address">
+  </div>
+
+  <div class="form-group">
+    <label for="password" class="sr-only">Password</label>
+    <input type="password" class="form-control" name="password" placeholder="Password">
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-block btn-primary">Sign in</button>
+  </div>
+
+  <div class="form-group">
+    <a href="/auth/facebook" class="btn btn-block btn-primary"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+  </div>
+
+  {{#if message}}
+    <p class="text-danger">{{message}}</p>
+  {{/if}}
+
+  <p class="text-muted">Click <a href="/auth/signup">here</a> if you don't have an account.</p>
+
+</form>

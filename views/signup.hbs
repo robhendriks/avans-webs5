@@ -1,0 +1,41 @@
+<form method="post" class="form-signin">
+  <h1>Pub Crawl</h1>
+  <p class="lead">Please sign up</p>
+
+  <div class="form-group">
+    <label for="email" class="sr-only">Email address</label>
+    <input type="email" class="form-control" name="email" placeholder="Email address">
+  </div>
+
+  <div class="form-group">
+    <label for="password" class="sr-only">Password</label>
+    <input type="password" class="form-control" name="password" placeholder="Password">
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+
+      <div class="col-xs-6" style="padding-right: 6px;">
+        <label for="firstName" class="sr-only">First name</label>
+        <input type="text" class="form-control" name="firstName" placeholder="First name">
+      </div>
+
+      <div class="col-xs-6" style="padding-left: 6px;">
+        <label for="lastName" class="sr-only">Last name</label>
+        <input type="text" class="form-control" name="lastName" placeholder="Last name">
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-block btn-primary">Sign up</button>
+  </div>
+
+  {{#if message}}
+    <p class="text-danger">{{message}}</p>
+  {{/if}}
+
+  <p class="text-muted">Click <a href="/auth/signin">here</a> if you already have an account.</p>
+
+</form>

@@ -1,0 +1,24 @@
+{
+  "name": "pub-crawl",
+  "version": "1.0.0",
+  "description": "Pub Crawl",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "cookie-parser": "^1.4.1",
+    "express": "^4.13.4",
+    "express-flash": "0.0.2",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.13.0",
+    "mongoose": "^4.4.10",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.0",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4"
+  },
+  "scripts": {
+    "start": "nodemon bin/www"
+  },
+  "author": "robhendriks <cyanidenl@icloud.com>",
+  "license": "ISC",
+  "private": true
+}

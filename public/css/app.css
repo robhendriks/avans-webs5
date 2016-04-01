@@ -1,0 +1,14 @@
+/* Body */
+body {
+  padding-top: 70px; }
+body.signin,
+body.signup {
+  background-color: #f4f4f4; }
+
+/* Forms */
+form.form-signin,
+form.form-signup {
+  max-width: 330px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
