@@ -6,6 +6,7 @@ var flash = require('express-flash');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
+var rest = require('./helpers/rest');
 
 var dbConfig = require('./config/db');
 require('mongoose').connect(dbConfig.url);
@@ -29,7 +30,20 @@ require('./modules/socialAuth')(app, passport);
 
 app.use('/', require('./routes'))
 app.use('/auth', require('./routes/auth'));
+
+app.use('/api/v1/users', require('./routes/users'));
 app.use('/api/v1/waypoints', require('./routes/waypoints'));
 app.use('/api/v1/races', require('./routes/races'));
+
+app.use(function(req, res, next) {
+  next(rest.notFound);
+});
+
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.json({
+    error: err.message
+  });
+});
 
 module.exports = app;

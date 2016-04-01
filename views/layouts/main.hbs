@@ -15,10 +15,19 @@
   {{> header}}
   {{{body}}}
   {{> footer}}
+  
+  {{#if user}}
+    <script>
+      var user = {
+        id: '{{user.id}}'
+      };
+    </script>
+  {{/if}}
 
   <script src="/js/vendor/jquery.min.js"></script>
   <script src="/js/vendor/bootstrap.min.js"></script>
   <script src="/js/app.js"></script>
+  
 </body>
 
 </html>
