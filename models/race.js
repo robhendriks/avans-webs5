@@ -1,15 +1,19 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Waypoint = require('./waypoint');
-
 var Race = new Schema({
   name: {
     type: String,
     required: true
   },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   waypoints: [{
-    type: Waypoint.schema
+    type: Schema.Types.ObjectId,
+    ref: 'Waypoint'
   }]
 });
 

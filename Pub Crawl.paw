@@ -223,7 +223,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z139"></relationship>
     </object>
     <object type="LMREQUEST" id="z139">
-        <attribute name="body" type="string">[{"data":{"keyValues":[[["name"],["Foo"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"name\\":\\"Foo\\",\\"geo\\":{\\"lat\\":\\"10.0\\",\\"lng\\":\\"-10.0\\"}}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="uuid" type="string">064B7B31-4864-40BB-A249-88DF242C8F0B</attribute>
         <attribute name="url" type="string">[{"data":{"environmentVariable":"23503749-DC07-412B-90E8-153924C8C8A6"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/users\\/",{"data":{"environmentVariable":"79966448-AEAC-4195-8118-1CC55E0917D0"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/waypoints"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
@@ -297,6 +297,7 @@
         <relationship name="urlparameters" type="0/0" destination="LMKEYVALUE"></relationship>
     </object>
     <object type="LMREQUEST" id="z148">
+        <attribute name="body" type="string">[{"data":{"json":"{}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="uuid" type="string">0B8B3FC5-C6AF-48FB-9AB6-7D85EB2AA6D2</attribute>
         <attribute name="url" type="string">[{"data":{"environmentVariable":"23503749-DC07-412B-90E8-153924C8C8A6"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/waypoints"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
@@ -416,7 +417,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"keyValues":[[["name"],["Bar"],true],[["author"],[{"data":{"environmentVariable":"79966448-AEAC-4195-8118-1CC55E0917D0"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"}],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"name\\":\\"Bar\\",\\"geo\\":{\\"lat\\":\\"10.0\\",\\"lng\\":\\"-10.0\\"},\\"author\\":\\"[{\\\\\\"data\\\\\\":{\\\\\\"environmentVariable\\\\\\":\\\\\\"79966448-AEAC-4195-8118-1CC55E0917D0\\\\\\"},\\\\\\"identifier\\\\\\":\\\\\\"com.luckymarmot.EnvironmentVariableDynamicValue\\\\\\"}]\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">2</attribute>
         <attribute name="name" type="string">Create</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z147"></relationship>
@@ -561,7 +562,7 @@
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z170"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z173">
-        <attribute name="value" type="string">56feeef4d24846c313e6a2cc</attribute>
+        <attribute name="value" type="string">56feff76aa6f8c2316da4af4</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z169"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z155"></relationship>
     </object>

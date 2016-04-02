@@ -1,10 +1,19 @@
 var express = require('express');
 var router = express.Router();
 
+var Race = require('../models/race');
+
 router
   .route('/')
-  .get(function(req, res) {
-    res.json({});
+  .get(function(req, res, next) {
+    Race
+      .find()
+      .exec(function(err, races) {
+        if (err) {
+          return next(err);
+        }
+        res.json(races);
+      });
   })
   .post(function(req, res, next) {
     res.json({});

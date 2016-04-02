@@ -6,6 +6,14 @@ var Waypoint = new Schema({
     type: String,
     required: true
   },
+  geo: {
+    lat: {
+      type: Number
+    },
+    lng: {
+      type: Number
+    }
+  },
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User',

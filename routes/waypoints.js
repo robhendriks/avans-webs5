@@ -12,14 +12,13 @@ router
   .get(function(req, res, next) {
     Waypoint
       .find()
-      .select('id name author')
-      .populate('author', 'id email name')
+      .populate('author')
       .exec(function(err, waypoints) {
         if (err) {
           return next(err);
         }
         res.json(waypoints);
-      })
+      });
   })
   .post(function(req, res, next) {
     User
@@ -32,10 +31,7 @@ router
           return next(rest.badRequest);
         }
         
-        var wp = new Waypoint({
-          name: req.body.name,
-          author: user._id
-        });
+        var wp = new Waypoint(req.body);
 
         wp.save(function(err) {
           if (err) {
@@ -44,7 +40,7 @@ router
           res.status(201);
           res.send();
         });
-      })
+      });
   });
 
 router
@@ -52,8 +48,7 @@ router
   .get(function(req, res, next) {
     Waypoint
       .findById(req.params.id)
-      .select('id name author')
-      .populate('author', 'id email name')
+      .populate('author')
       .exec(function(err, waypoint) {
         if (err) {
           return next(err);
@@ -62,7 +57,7 @@ router
           return next(rest.notFound);
         }
         res.json(waypoint);
-      })
+      });
   })
   .delete(function(req, res, next) {
     Waypoint
@@ -75,7 +70,7 @@ router
           return next(rest.notFound);
         }
         res.send();
-      })
+      });
   });
   
 module.exports = router;

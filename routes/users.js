@@ -12,8 +12,6 @@ router
   .get(function(req, res, next) {
     User
       .find()
-      .select('id email name')
-      .lean()
       .exec(function(err, users) {
         if (err) {
           return next(err);
@@ -27,8 +25,6 @@ router
   .get(function(req, res, next) {
     User
       .findById(req.params.id)
-      .select('id email name')
-      .lean()
       .exec(function(err, user) {
         if (err) {
           return next(err);
@@ -45,7 +41,6 @@ router
   .get(function(req, res, next) {
     User
       .findById(req.params.id)
-      .lean()
       .exec(function(err, user) {
         if (err) {
           return next(err);
@@ -55,8 +50,6 @@ router
         }
         Waypoint
           .find({ author: user._id })
-          .select('id name')
-          .lean()
           .exec(function(err, waypoints) {
             if (err) {
               return next(err);
@@ -68,7 +61,6 @@ router
   .post(function(req, res, next) {
     User
       .findById(req.params.id)
-      .lean()
       .exec(function(err, user) {
         if (err) {
           return next(err);
@@ -77,10 +69,8 @@ router
           return next(rest.notFound);
         }
 
-        var wp = new Waypoint({
-          name: req.body.name,
-          author: user._id
-        });
+        req.body.author = user._id;
+        var wp = new Waypoint(req.body);
 
         wp.save(function(err) {
           if (err) {
