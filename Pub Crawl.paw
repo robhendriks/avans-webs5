@@ -79,7 +79,7 @@
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">Development</attribute>
         <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z104"></relationship>
-        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z120 z106 z117 z110"></relationship>
+        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z106 z117 z120 z110"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z106">
         <attribute name="value" type="string">http</attribute>

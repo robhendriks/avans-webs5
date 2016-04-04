@@ -8,11 +8,14 @@ var User = require('../models/user');
 var Waypoint = require('../models/waypoint');
 var Race = require('../models/race');
 
+var optOut = '-salt -hashedPassword -provider -providerId';
+
 router
   .route('/')
   .get(function(req, res, next) {
     User
       .find()
+      .select(optOut)
       .exec(function(err, users) {
         if (err) {
           return next(err);
@@ -29,6 +32,7 @@ router
   .get(function(req, res, next) {
     User
       .findById(req.params.id)
+      .select(optOut)
       .exec(function(err, user) {
         if (err) {
           return next(err);
