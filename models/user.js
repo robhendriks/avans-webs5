@@ -51,6 +51,11 @@ User.virtual('password')
     this.hashedPassword = this.hashPassword(password);
   });
 
+User.virtual('userId')
+  .get(function() {
+    return this._id;
+  });
+
 User.virtual('name.full')
   .get(function() {
     return this.name.first + ' ' + this.name.last;
