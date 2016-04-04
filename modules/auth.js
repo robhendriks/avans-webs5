@@ -1,3 +1,5 @@
+var rest = require('../helpers/rest');
+
 var Auth = {
 
   urls: {
@@ -12,11 +14,12 @@ var Auth = {
 
 };
 
-module.exports = function(arg) {
+module.exports = function(arg0, arg1) {
 
   var self = {};
 
-  self.roles = (typeof arg === 'string' ? arg.split(' ') : []);
+  self.roles = (typeof arg0 === 'string' ? arg0.split(' ') : []);
+  self.redirect = (typeof arg1 === 'boolean' ? arg1 : true);
 
   self.test = function(roles) {
     for (var i = 0; i < self.roles.length; i++) {
@@ -36,6 +39,9 @@ module.exports = function(arg) {
     var url;
     if (!(url = self.test(roles))) {
       return next();
+    }
+    if (!self.redirect) {
+      return next(rest.unauthorized);
     }
     res.redirect(url);
   };

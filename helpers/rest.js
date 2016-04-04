@@ -12,6 +12,12 @@ Rest.prototype = {
     return err;
   },
 
+  get unauthorized() {
+    var err = new Error('Unauthorized');
+    err.status = 401;
+    return err;
+  },
+
   get notFound() {
     var err = new Error('Not Found');
     err.status = 404;

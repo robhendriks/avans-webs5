@@ -18,6 +18,10 @@ var Waypoint = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
+  },
+  created: {
+    type: Date,
+    default: Date.now
   }
 });
 
