@@ -1,4 +1,3 @@
-var util = require('util');
 var express = require('express');
 var rest = require('../helpers/rest');
 
@@ -7,17 +6,22 @@ var router = express.Router();
 var Waypoint = require('../models/waypoint');
 var User = require('../models/user');
 
+var optOut = '-salt -hashedPassword -provider -providerId';
+
 router
   .route('/')
   .get(function(req, res, next) {
     Waypoint
       .find()
-      .populate('author')
+      .populate('author', optOut)
       .exec(function(err, waypoints) {
         if (err) {
           return next(err);
         }
-        res.json(waypoints);
+        if (req.isHtml)
+          res.render('widgets/waypoint-list', { layout: false, waypoints: waypoints });
+        else
+          res.json(waypoints);
       });
   })
   .post(function(req, res, next) {
@@ -48,7 +52,7 @@ router
   .get(function(req, res, next) {
     Waypoint
       .findById(req.params.id)
-      .populate('author')
+      .populate('author', optOut)
       .exec(function(err, waypoint) {
         if (err) {
           return next(err);

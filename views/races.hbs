@@ -3,4 +3,24 @@
   <h1>{{title}}</h1>
   <p class="lead">Manage your races.</p>
 
+  <table id="races" class="table table-bordered">
+    
+    <thead>
+      <th>Name</th>
+      <th>Created</th>
+      <th></th>
+    </thead>
+
+  </table>
+
+  <script>
+
+    var $races;
+
+    window.onload = function() {
+      $races = $('#races');
+    };
+
+  </script>
+
 </div>

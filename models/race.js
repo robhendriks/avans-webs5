@@ -14,7 +14,16 @@ var Race = new Schema({
   waypoints: [{
     type: Schema.Types.ObjectId,
     ref: 'Waypoint'
-  }]
+  }],
+  created: {
+    type: Date,
+    default: Date.now
+  },
+  state: {
+    type: String,
+    enum: ['none', 'playing', 'ended'],
+    default: 'none'
+  }
 });
 
 module.exports = mongoose.model('Race', Race);

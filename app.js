@@ -31,6 +31,12 @@ require('./modules/socialAuth')(app, passport);
 app.use('/', require('./routes'))
 app.use('/auth', require('./routes/auth'));
 
+app.use('/api', function(req, res, next) {
+  var contentType = req.headers['content-type'];
+  req.isHtml = (contentType === 'text/html');
+  next();
+});
+
 app.use('/api/v1/users', require('./routes/users'));
 app.use('/api/v1/waypoints', require('./routes/waypoints'));
 app.use('/api/v1/races', require('./routes/races'));
