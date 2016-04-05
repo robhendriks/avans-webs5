@@ -15,12 +15,13 @@ App.Request.prototype = {
   },
 
   url: function(url) {
-    this._url = App.baseUrl + App.Uri.parse(url).uri;
+    this._url = App.baseUrl + url;
     return this;
   },
 
   data: function(data) {
     this._data = data;
+    return this;
   },
 
   header: function(key, value) {
@@ -68,6 +69,9 @@ App.Request.prototype = {
       .fail(function(jqXHR, textStatus, errorThrown) {
         var err = new Error(jqXHR.statusText);
         err.status = jqXHR.status;
+        if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
+          err.error = jqXHR.responseJSON.error;
+        }
         return cb(err);
       })
       .done(function(data, textStatus, jqXHR) {

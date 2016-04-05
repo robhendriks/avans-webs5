@@ -17,9 +17,10 @@
         <div class="collapse navbar-collapse" id="pc-navbar">
 
           <ul class="nav navbar-nav">
-            <li><a href="/waypoints">Waypoints</a></li>
+            {{#if user.isAdmin}}
+              <li><a href="/users">Users</a></li>
+            {{/if}}
             <li><a href="/races">Races</a></li>
-
             {{#if user.isAdmin}}
               <li><a href="/docs">API Documentation</a></li>
             {{/if}}

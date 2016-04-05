@@ -1,1 +1,13 @@
-Races
+<div class="list-group">
+  {{#each docs}}
+    <a href="#" class="list-group-item" data-id="{{_id}}">{{name}}</a>
+  {{/each}}
+</div>
+
+<nav>
+  <ul class="pagination" data-pages="{{pages}}" data-page="{{page}}" data-total="{{docs.length}}">
+    {{#times pages}}
+      <li><a href="#" data-page="{{this}}">{{this}}</a></li>
+    {{/times}}
+  </ul>
+</nav>

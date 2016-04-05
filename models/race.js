@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
+
 var Schema = mongoose.Schema;
 
 var Race = new Schema({
@@ -25,5 +27,7 @@ var Race = new Schema({
     default: 'none'
   }
 });
+
+Race.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Race', Race);

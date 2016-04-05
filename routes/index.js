@@ -10,9 +10,9 @@ router
   });
 
 router
-  .route('/waypoints')
-  .get(auth('user'), function(req, res) {
-    res.render('waypoints', { title: 'Waypoints', user: req.user });
+  .route('/users')
+  .get(auth('admin'), function(req, res) {
+    res.render('users', { title: 'Users', user: req.user });
   });
 
 router

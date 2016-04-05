@@ -1,5 +1,6 @@
 var util = require('util');
 var express = require('express');
+var auth = require('../modules/auth');
 var rest = require('../helpers/rest');
 
 var router = express.Router();
@@ -8,31 +9,40 @@ var User = require('../models/user');
 var Waypoint = require('../models/waypoint');
 var Race = require('../models/race');
 
-var optOut = '-salt -hashedPassword -provider -providerId';
+var optOut = '-salt -hashedPassword -providerId';
 
 router
   .route('/')
+  // .get(auth('admin', false), function(req, res, next) {
   .get(function(req, res, next) {
+    var options = {
+      page: req.query.page || 1,
+      limit: req.query.limit || 10,
+      sort: '-created'
+    };
+
     User
-      .find()
-      .select(optOut)
-      .exec(function(err, users) {
+      .paginate({}, options, function(err, result) {
         if (err) {
           return next(err);
         }
-        if (req.isHtml)
-          res.render('widgets/user-list', { layout: false, users: users });
+        if (req.isHtml) {
+          result.layout = false;
+          res.render('widgets/user-list', result);
+        }
         else
-          res.json(users);
+          res.json(result);
       });
   });
 
 router
   .route('/:id')
+  // .get(auth('admin'), function(req, res, next) {
   .get(function(req, res, next) {
     User
       .findById(req.params.id)
       .select(optOut)
+      .lean()
       .exec(function(err, user) {
         if (err) {
           return next(err);
@@ -40,8 +50,10 @@ router
         if (!user) {
           return next(rest.notFound);
         }
-        if (req.isHtml)
-          res.render('widgets/user-single', { layout: false, user: user });
+        if (req.isHtml) {
+          user.layout = false;
+          res.render('widgets/user-single', user);
+        }
         else
           res.json(user);
       });
@@ -59,16 +71,27 @@ router
         if (!user) {
           return next(rest.notFound);
         }
+
+        var query = {
+          author: user._id
+        };
+        var options = {
+          page: req.query.page || 1,
+          limit: req.query.limit || 10,
+          sort: '-created'
+        };
+
         Race
-          .find({ author: user._id })
-          .exec(function(err, races) {
+          .paginate(query, options, function(err, result) {
             if (err) {
               return next(err);
             }
-            if (req.isHtml)
-              res.render('widgets/race-list', { layout: false, races: races });
+            if (req.isHtml) {
+              result.layout = false;
+              res.render('widgets/race-list', result);
+            }
             else
-              res.json(races);
+              res.json(result);
           });
       });
   })

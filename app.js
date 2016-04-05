@@ -13,7 +13,11 @@ require('mongoose').connect(dbConfig.url);
 
 var app = express();
 
-app.engine('hbs', handlebars({ extname: 'hbs', defaultLayout: 'main' }));
+app.engine('hbs', handlebars({ 
+  extname: 'hbs', 
+  defaultLayout: 'main',
+  helpers: require('./helpers/handlebars')
+}));
 app.set('view engine', 'hbs');
 
 app.use(bodyParser.json());

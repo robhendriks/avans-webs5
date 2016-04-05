@@ -11,17 +11,24 @@ var optOut = '-salt -hashedPassword -provider -providerId';
 router
   .route('/')
   .get(function(req, res, next) {
+    var options = {
+      page: req.query.page || 1,
+      limit: req.query.limit || 10,
+      sort: '-created',
+      populate: 'author'
+    };
+
     Race
-      .find()
-      .populate('author', optOut)
-      .exec(function(err, races) {
+      .paginate({}, options, function(err, result) {
         if (err) {
           return next(err);
         }
-        if (req.isHtml)
-          res.render('widgets/race-list', { layout: false, races: races });
+        if (req.isHtml) {
+          result.layout = false;
+          res.render('widgets/race-list', result);
+        }
         else
-          res.json(races);
+          res.json(result);
       });
   })
   .post(function(req, res, next) {
@@ -52,6 +59,7 @@ router
     Race
       .findById(req.params.id)
       .populate('author', optOut)
+      .lean()
       .exec(function(err, race) {
         if (err) {
           return next(err);
@@ -59,8 +67,10 @@ router
         if (!race) {
           return next(rest.notFound);
         }
-        if (req.isHtml)
-          res.render('widgets/race-single', { layout: false, race: race });
+        if (req.isHtml) {
+          race.layout = false;
+          res.render('widgets/race-single', race);
+        }
         else
           res.json(race);
       });
