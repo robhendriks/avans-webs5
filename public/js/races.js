@@ -1,109 +1,125 @@
-var $races;
 var $race;
-var $addRace;
+var $raceName;
+var $raceDescription;
+var $raceAuthor;
+var $raceCreated;
+var $raceForm;
+var $races;
 
-var $pagination;
+var selectedRace;
 
-var metaData;
+function serialize(elem) {
+  var form = elem.serializeArray();
+  var fields = {}, field;
+  for (var i = 0; i < form.length; i++) {
+    field = form[i];
+    fields[field.name] = field.value;
+  }
+  return fields;
+}
 
-window.onload = function() {
+function selectRace(race) {
+  if (!race) {
+    selectedRace = null;
+    $race.hide();
+    return;
+  }
+
+  selectedRace = race;
+  
+  $race.show();
+  $raceName.text(race.name);
+  $raceDescription.text(race.description || 'Empty');
+  $raceAuthor.text(race.author.email);
+  $raceCreated.timeago('update', race.created);
+
+  $('a[data-race-id!=' + race._id + ']', $raceList).removeClass('active');
+  $('a[data-race-id=' + race._id + ']', $raceList).addClass('active');
+}
+
+function addRace(evt) {
+  evt.preventDefault();
+  
+  var race = serialize($raceForm);
+  new App.Request()
+    .post('users/' + user.id + '/races')
+    .data(race)
+    .exec(function(err, data) {
+      if (err) {
+        return alert(err.error || err);
+      }
+      $raceForm.trigger('reset');
+      getRaces(1, true);
+    });
+}
+
+function getRace(raceId) {
+  new App.Request()
+    .get('races/' + raceId)
+    .exec(function(err, race) {
+      if (err) {
+        return alert(err);
+      }
+      selectRace(race);
+    });
+}
+
+function getRaces(page, select) {
+  page = page || 1;
+  select = select || false;
+
+  new App.Request()
+    .get('users/' + user.id + '/races?page=' + page)
+    .header('Content-Type', 'text/html')
+    .exec(function(err, html) {
+      if (err) {
+        return alert(err);
+      }
+
+      $raceList.html(html);
+
+      $('a[data-race-id]', $raceList).on('click', goToRace);
+      $('a[data-page-id][data-page-id!=' + page + ']', $raceList).on('click', goToPage);
+      $('a[data-page-id=' + page + ']', $raceList).parent().addClass('active');
+
+      if (select === true) {
+        $('a[data-race-id]:first').click();
+      }
+      if (selectedRace) {
+        $('a[data-race-id=' + selectedRace._id + ']', $raceList).addClass('active');
+      }
+    });
+}
+
+function goToRace(evt) {
+  evt.preventDefault();
+  getRace($(this).attr('data-race-id'));
+}
+
+function goToPage(evt) {
+  evt.preventDefault();
+  getRaces($(this).attr('data-page-id'));
+}
+
+function getWaypoints() {
+
+}
+
+function init() {
   $race = $('#race');
-  $races = $('#races');
-  $addRace = $('#addRace');
+  
+  $raceName = $('#raceName');
+  $raceDescription = $('#raceDescription');
+  $raceAuthor = $('#raceAuthor');
+  $raceCreated = $('#raceCreated');
 
-  $addRace.submit(function(evt) {
-    evt.preventDefault();
+  $raceForm = $('#raceForm');
+  $raceForm.submit(addRace);
 
-    var data = {};
+  $raceList = $('#raceList');
 
-    var form = $(addRace).serializeArray();
-    var field;
-    for (var i = 0; i < form.length; i++) {
-      field = form[i];
-      data[field.name] = field.value;
-    }
+  selectRace(null);
+  getRaces();
+}
 
-    new App.Request()
-      .post('/api/v1/users/' + user.id + '/Races')
-      .data(data)
-      .exec(function(err, data) {
-        if (err && err.error) {
-          return alert(err.error);
-        }
-        $addRace.trigger('reset');
-        fetchRaces(1, function() {
-          $('.list-group > .list-group-item:first', $races).trigger('click');
-        });
-      });
-  });
-
-  function getMetaData() {
-    $pagination = $('ul.pagination', $races);
-    metaData = {
-      pages: $pagination.attr('data-pages'),
-      page: $pagination.attr('data-page'),
-      total: $pagination.attr('data-total')
-    };
-    
-    $('a[data-page=' + metaData.page + ']', $pagination).parent().addClass('active');
-  }
-
-  function navigateTo(evt) {
-    evt.preventDefault();
-
-    var $this = $(this);
-    var id = $this.attr('data-id');
-    fetchRace(id);
-
-    return false;
-  }
-
-  function fetchPage(evt) {
-    evt.preventDefault();
-
-    var $this = $(this);
-    if ($this.parent().hasClass('active')) {
-      return;
-    }
-
-    var page = $this.attr('data-page');
-    fetchRaces(page);
-
-    return false;
-  }
-
-  function fetchRaces(page, cb) {
-    page = page || 1;
-    new App.Request()
-      .url('/api/v1/users/' + user.id + '/races?page=' + page)
-      .header('Content-Type', 'text/html')
-      .exec(function(err, data) {
-        if (err) {
-          return;
-        }
-        $races.html(data);
-
-        $('a[data-id]', $races).on('click', navigateTo);
-        $('a[data-page]', $races).on('click', fetchPage);
-
-        getMetaData();
-        if (cb) { cb(); }
-      });
-  }
-
-  function fetchRace(id, cb) {
-    new App.Request()
-      .url('/api/v1/races/' + id)
-      .header('Content-Type', 'text/html')
-      .exec(function(err, data) {
-        if (err) {
-          return;
-        }
-
-        $race.html(data);
-        if (cb) { cb(); }
-      });
-  }
-
-  fetchRaces(1);
-};
+window.onload = init;

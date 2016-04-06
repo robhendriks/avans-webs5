@@ -1,5 +1,5 @@
 var App = function() {
-  this._baseUrl = 'http://localhost:3000';
+  this._baseUrl = 'http://localhost:3000/api/v1/';
 };
 
 App.prototype = {

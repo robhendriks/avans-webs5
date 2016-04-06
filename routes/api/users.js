@@ -1,19 +1,17 @@
 var util = require('util');
 var express = require('express');
-var auth = require('../modules/auth');
-var rest = require('../helpers/rest');
+var rest = require('../../helpers/rest');
 
 var router = express.Router();
 
-var User = require('../models/user');
-var Waypoint = require('../models/waypoint');
-var Race = require('../models/race');
+var User = require('../../models/user');
+var Waypoint = require('../../models/waypoint');
+var Race = require('../../models/race');
 
 var optOut = '-salt -hashedPassword -providerId';
 
 router
   .route('/')
-  // .get(auth('admin', false), function(req, res, next) {
   .get(function(req, res, next) {
     var options = {
       page: req.query.page || 1,
@@ -37,7 +35,6 @@ router
 
 router
   .route('/:id')
-  // .get(auth('admin'), function(req, res, next) {
   .get(function(req, res, next) {
     User
       .findById(req.params.id)

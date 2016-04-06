@@ -34,29 +34,6 @@ require('./modules/socialAuth')(app, passport);
 
 app.use('/', require('./routes'))
 app.use('/auth', require('./routes/auth'));
-
-app.use('/api', function(req, res, next) {
-  var contentType = req.headers['content-type'];
-  req.isHtml = (contentType === 'text/html');
-  next();
-});
-
-var auth = require('./modules/auth');
-
-// app.use('/api', auth('user', false));
-app.use('/api/v1/users', require('./routes/users'));
-app.use('/api/v1/waypoints', require('./routes/waypoints'));
-app.use('/api/v1/races', require('./routes/races'));
-
-app.use(function(req, res, next) {
-  next(rest.notFound);
-});
-
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.json({
-    error: err.message
-  });
-});
+app.use('/api/v1', require('./routes/api'));
 
 module.exports = app;

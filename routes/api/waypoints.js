@@ -1,34 +1,27 @@
 var express = require('express');
-var rest = require('../helpers/rest');
+var rest = require('../../helpers/rest');
+
+var Waypoint = require('../../models/waypoint');
+var User = require('../../models/user');
 
 var router = express.Router();
-
-var User = require('../models/user');
-var Race = require('../models/race');
 
 var optOut = '-salt -hashedPassword -provider -providerId';
 
 router
   .route('/')
   .get(function(req, res, next) {
-    var options = {
-      page: req.query.page || 1,
-      limit: req.query.limit || 10,
-      sort: '-created',
-      populate: 'author'
-    };
-
-    Race
-      .paginate({}, options, function(err, result) {
+    Waypoint
+      .find()
+      .populate('author', optOut)
+      .exec(function(err, waypoints) {
         if (err) {
           return next(err);
         }
-        if (req.isHtml) {
-          result.layout = false;
-          res.render('widgets/race-list', result);
-        }
+        if (req.isHtml)
+          res.render('widgets/waypoint-list', { layout: false, waypoints: waypoints });
         else
-          res.json(result);
+          res.json(waypoints);
       });
   })
   .post(function(req, res, next) {
@@ -42,8 +35,9 @@ router
           return next(rest.badRequest);
         }
         
-        var rc = new Race(req.body);
-        rc.save(function(err) {
+        var wp = new Waypoint(req.body);
+
+        wp.save(function(err) {
           if (err) {
             return next(err);
           }
@@ -56,37 +50,31 @@ router
 router
   .route('/:id')
   .get(function(req, res, next) {
-    Race
+    Waypoint
       .findById(req.params.id)
       .populate('author', optOut)
-      .lean()
-      .exec(function(err, race) {
+      .exec(function(err, waypoint) {
         if (err) {
           return next(err);
         }
-        if (!race) {
+        if (!waypoint) {
           return next(rest.notFound);
         }
-        if (req.isHtml) {
-          race.layout = false;
-          res.render('widgets/race-single', race);
-        }
-        else
-          res.json(race);
+        res.json(waypoint);
       });
   })
   .delete(function(req, res, next) {
-    Race
+    Waypoint
       .findByIdAndRemove(req.params.id)
-      .exec(function(err, race) {
+      .exec(function(err, waypoint) {
         if (err) {
           return next(err);
         }
-        if (!race) {
+        if (!waypoint) {
           return next(rest.notFound);
         }
         res.send();
       });
   });
-
+  
 module.exports = router;

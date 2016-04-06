@@ -1,13 +1,13 @@
 <div class="list-group">
   {{#each docs}}
-    <a href="#" class="list-group-item" data-id="{{_id}}">{{name}}</a>
+    <a href="#" class="list-group-item" data-race-id="{{_id}}" title="{{description}}">{{name}}</a>
   {{/each}}
 </div>
 
 <nav>
-  <ul class="pagination" data-pages="{{pages}}" data-page="{{page}}" data-total="{{docs.length}}">
+  <ul class="pagination">
     {{#times pages}}
-      <li><a href="#" data-page="{{this}}">{{this}}</a></li>
+      <li><a href="#" data-page-id="{{this}}">{{this}}</a></li>
     {{/times}}
   </ul>
 </nav>
