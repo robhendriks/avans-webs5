@@ -1,1 +1,24 @@
-Waypoints
+{{#if page}}
+  <table class="table table-bordered table-striped">
+    <thead>
+      <th>Name</th>
+      <th>Location</th>
+    </thead>
+
+    <tbody>
+      {{#each docs}}
+        {{> waypoint/single}}
+      {{/each}}
+    </tbody>
+  </table>
+
+  <nav>
+    <ul class="pagination">
+      {{#times pages}}
+        <li><a href="#" data-page-id="{{this}}">{{this}}</a></li>
+      {{/times}}
+    </ul>
+  </nav>
+{{else}}
+  <p>Unsupported</p>
+{{/if}}

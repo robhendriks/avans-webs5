@@ -1,26 +1,18 @@
 var $alert,
     $race,
     $raceName,
-    $raceDescriptio,
-    $raceAutho,
-    $raceCreate,
-    $raceFor,
-    $races;
+    $raceDescription,
+    $raceAuthor,
+    $raceCreated,
+    $raceForm,
+    $raceList,
+    $waypoint,
+    $waypointList;
 
 var selectedRace;
 
 function showAlert(message) {
   $alert.html(message.replace(/\n/g, '<br>')).show();
-}
-
-function serialize(elem) {
-  var form = elem.serializeArray();
-  var fields = {}, field;
-  for (var i = 0; i < form.length; i++) {
-    field = form[i];
-    fields[field.name] = field.value;
-  }
-  return fields;
 }
 
 function selectRace(race) {
@@ -40,12 +32,14 @@ function selectRace(race) {
 
   $('a[data-race-id!=' + race._id + ']', $raceList).removeClass('active');
   $('a[data-race-id=' + race._id + ']', $raceList).addClass('active');
+
+  getWaypoints();
 }
 
 function addRace(evt) {
   evt.preventDefault();
   
-  var race = serialize($raceForm);
+  var race = Util.serialize($raceForm);
   new App.Request()
     .post('users/' + user.id + '/races')
     .data(race)
@@ -84,7 +78,7 @@ function getRaces(page, select) {
       $raceList.html(html);
 
       $('a[data-race-id]', $raceList).on('click', goToRace);
-      $('a[data-page-id][data-page-id!=' + page + ']', $raceList).on('click', goToPage);
+      $('a[data-page-id][data-page-id!=' + page + ']', $raceList).on('click', goToRaces);
       $('a[data-page-id=' + page + ']', $raceList).parent().addClass('active');
 
       if (select === true) {
@@ -101,18 +95,45 @@ function goToRace(evt) {
   getRace($(this).attr('data-race-id'));
 }
 
-function goToPage(evt) {
+function goToRaces(evt) {
   evt.preventDefault();
   getRaces($(this).attr('data-page-id'));
 }
 
-function getWaypoints() {
+function goToWaypoint(evt) {
+  evt.preventDefault();
+  alert('m8');
+}
 
+function goToWaypoints(evt) {
+  evt.preventDefault();
+  getWaypoints($(this).attr('data-page-id'));
+}
+
+function getWaypoints(page) {
+  if (!selectedRace) { return; }
+
+  page = page || 1;
+
+  new App.Request()
+    .get('races/' + selectedRace._id + '/waypoints?page=' + page)
+    .header('Content-Type', 'text/html')
+    .exec(function(err, html) {
+      if (err) {
+        return alert(err);
+      }
+
+      $waypointList.html(html);
+
+      $('a[data-waypoint-id]', $waypointList).on('click', goToWaypoint);
+      $('a[data-page-id][data-page-id!=' + page + ']', $waypointList).on('click', goToWaypoints);
+      $('a[data-page-id=' + page + ']', $waypointList).parent().addClass('active');
+    });
 }
 
 function init() {
   $alert = $('#alert').hide();
-  
+
   $race = $('#race');
   $raceName = $('#raceName');
   $raceDescription = $('#raceDescription');
@@ -123,6 +144,9 @@ function init() {
   $raceForm.submit(addRace);
 
   $raceList = $('#raceList');
+
+  $waypoints = $('#waypoint');
+  $waypointList = $('#waypointList');
 
   selectRace(null);
   getRaces();

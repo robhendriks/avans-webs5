@@ -215,7 +215,7 @@
     <object type="LMREQUEST" id="z139">
         <attribute name="body" type="string">[{"data":{"json":"{\\"name\\":\\"Foo\\",\\"description\\":\\"Bar\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="uuid" type="string">064B7B31-4864-40BB-A249-88DF242C8F0B</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"23503749-DC07-412B-90E8-153924C8C8A6"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/users\\/",{"data":{"environmentVariable":"3BD70B06-0252-4C49-9533-79C0DF8CF885"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/Races"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"23503749-DC07-412B-90E8-153924C8C8A6"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/users\\/",{"data":{"environmentVariable":"3BD70B06-0252-4C49-9533-79C0DF8CF885"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/races"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -441,7 +441,7 @@
     <object type="LMREQUEST" id="z196">
         <attribute name="body" type="string">[{"data":{"json":"{}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="uuid" type="string">03AC2DD3-5DFE-4304-BA5B-2C11A1F20289</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"23503749-DC07-412B-90E8-153924C8C8A6"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/races\\/",{"data":{"environmentVariable":"0E6F6AC9-1A4C-46B9-99AC-F9DB216C6015"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/waypoints"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"23503749-DC07-412B-90E8-153924C8C8A6"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/races\\/",{"data":{"environmentVariable":"0E6F6AC9-1A4C-46B9-99AC-F9DB216C6015"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/waypoints?page=1"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -458,7 +458,7 @@
         <attribute name="value" type="string">text/html</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">Content-Type</attribute>
-        <attribute name="enabled" type="bool">0</attribute>
+        <attribute name="enabled" type="bool">1</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -495,7 +495,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z201"></relationship>
     </object>
     <object type="LMREQUEST" id="z201">
-        <attribute name="body" type="string">[{"data":{"json":"{\\"name\\":\\"World\\",\\"author\\":\\"[{\\\\\\"data\\\\\\":{\\\\\\"environmentVariable\\\\\\":\\\\\\"3BD70B06-0252-4C49-9533-79C0DF8CF885\\\\\\"},\\\\\\"identifier\\\\\\":\\\\\\"com.luckymarmot.EnvironmentVariableDynamicValue\\\\\\"}]\\",\\"geo\\":{\\"lat\\":\\"0\\",\\"lng\\":\\"0\\"}}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"name\\":\\"Ipsum\\",\\"author\\":\\"[{\\\\\\"data\\\\\\":{\\\\\\"environmentVariable\\\\\\":\\\\\\"3BD70B06-0252-4C49-9533-79C0DF8CF885\\\\\\"},\\\\\\"identifier\\\\\\":\\\\\\"com.luckymarmot.EnvironmentVariableDynamicValue\\\\\\"}]\\",\\"geo\\":{\\"lat\\":\\"0\\",\\"lng\\":\\"0\\"}}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="uuid" type="string">EDD7D4C6-51B9-436B-8211-A7471B6A5B36</attribute>
         <attribute name="url" type="string">[{"data":{"environmentVariable":"23503749-DC07-412B-90E8-153924C8C8A6"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/races\\/",{"data":{"environmentVariable":"0E6F6AC9-1A4C-46B9-99AC-F9DB216C6015"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/waypoints"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>

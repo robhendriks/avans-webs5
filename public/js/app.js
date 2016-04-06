@@ -12,4 +12,16 @@ App.prototype = {
 
 };
 
+var Util = {};
+
+Util.serialize = function(elem) {
+  var form = elem.serializeArray();
+  var fields = {}, field;
+  for (var i = 0; i < form.length; i++) {
+    field = form[i];
+    fields[field.name] = field.value;
+  }
+  return fields;
+};
+
 window.App = new App();

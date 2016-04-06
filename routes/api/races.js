@@ -68,20 +68,31 @@ router.route('/:id')
 router.route('/:id/waypoints')
   .get(function(req, res, next) {
   	Race.findById(req.params.id)
-  		.populate({
-  			path: 'waypoints',
-  			populate: {
-          path: 'author', 
-          select: '-salt -hashedPassword'
-        }
-  		})
   		.exec()
   		.then(function(race) {
   			if (!race) {
   				throw rest.notFound;
   			}
-  			res.json(race.waypoints);
+
+        if (req.query.page) {
+          return Waypoint.paginate({
+            _id: {'$in': race.waypoints}
+          }, {
+            page: req.query.page,
+            limit: 5,
+            sort: '-created'
+          });
+        }
+        return Waypoint.find({_id: {'$in': race.waypoints}}).exec();
   		})
+      .then(function(waypoints) {
+        if (req.isHtml) {
+          waypoints.layout = false;
+          res.render('partials/waypoint/list', waypoints);
+        } else {
+          res.json(waypoints);
+        }
+      })
   		.catch(function(err) {
   			resolve(err, next);
   		});

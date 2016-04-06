@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var validate = require('mongoose-validator');
+var paginate = require('mongoose-paginate');
 
 var Schema = mongoose.Schema;
 
@@ -37,5 +38,7 @@ var Waypoint = new Schema({
     default: Date.now
   }
 });
+
+Waypoint.plugin(paginate);
 
 module.exports = mongoose.model('Waypoint', Waypoint);

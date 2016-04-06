@@ -1,67 +1,28 @@
 <div class="container">
-
   <div class="rows">
-    
     <div class="col-md-12">
       <h1>Races</h1>
       <hr>
     </div>
 
     <div class="col-sm-8 col-md-8">
+      <div id="race">  
+        <h2 id="raceName">{name}</h2>
+        <p id="raceDescription" class="lead">{description}</p>
+        <section class="waypoint-list">
+          <h3>Waypoints</h3>
+          <div id="waypointList"></div>
+        </section>
 
-      <section class="race">
-        <div id="race">
-          
-          <h2 id="raceName">{name}</h2>
-          <p id="raceDescription" class="lead">{description}</p>
-
-          <h4>Details</h4>
-          <p>
-            <div><strong>Created by: </strong><span id="raceAuthor">{author}</span></div>
-            <div><strong>Created: </strong><span id="raceCreated">{created}</span></div>
-          </p>
-
-          <h4>Waypoints</h4>
-
-          <div id="waypoint-list"></div>
-
-        </div>
-      </section>
-
+        <p class="text-muted">Created <span id="raceCreated">{created}</span> by <span id="raceAuthor">{author}</span>.</p>
+      </div>
     </div>
 
     <div class="col-sm-4 col-md-4">
-
-      <section class="race-add">
-        <form id="raceForm">
-          <div class="form-group">
-            <label for="name" class="sr-only">Name</label>
-            <input type="text" class="form-control" name="name" placeholder="Name">
-          </div>
-
-          <div class="form-group">
-            <label for="description" class="sr-only">Description</label>
-            <input type="text" class="form-control" name="description" placeholder="Description">
-          </div>
-
-          <div class="form-group">
-            <button type="submit" class="btn btn-block btn-success">Add race</button>
-          </div>
-
-          <div id="alert" class="alert alert-danger"></div>
-        </form>
-      </section>
-
-      <hr>
-      
-      <section class="race-list">
-        <div id="raceList"></div>
-      </section>
-
+      <h3>Races</h3>
+      <div id="raceList"></div>
     </div>
-
   </div>
-
 </div>
 
 <script src="/js/races.js"></script>
