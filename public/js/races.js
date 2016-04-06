@@ -1,12 +1,17 @@
-var $race;
-var $raceName;
-var $raceDescription;
-var $raceAuthor;
-var $raceCreated;
-var $raceForm;
-var $races;
+var $alert,
+    $race,
+    $raceName,
+    $raceDescriptio,
+    $raceAutho,
+    $raceCreate,
+    $raceFor,
+    $races;
 
 var selectedRace;
+
+function showAlert(message) {
+  $alert.html(message.replace(/\n/g, '<br>')).show();
+}
 
 function serialize(elem) {
   var form = elem.serializeArray();
@@ -29,7 +34,7 @@ function selectRace(race) {
   
   $race.show();
   $raceName.text(race.name);
-  $raceDescription.text(race.description || 'Empty');
+  $raceDescription.text(race.description);
   $raceAuthor.text(race.author.email);
   $raceCreated.timeago('update', race.created);
 
@@ -46,7 +51,7 @@ function addRace(evt) {
     .data(race)
     .exec(function(err, data) {
       if (err) {
-        return alert(err.error || err);
+        return showAlert(err);
       }
       $raceForm.trigger('reset');
       getRaces(1, true);
@@ -106,8 +111,9 @@ function getWaypoints() {
 }
 
 function init() {
-  $race = $('#race');
+  $alert = $('#alert').hide();
   
+  $race = $('#race');
   $raceName = $('#raceName');
   $raceDescription = $('#raceDescription');
   $raceAuthor = $('#raceAuthor');

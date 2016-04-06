@@ -1,168 +1,105 @@
-var util = require('util');
-var express = require('express');
-var rest = require('../../helpers/rest');
+var router = require('express').Router();
 
-var router = express.Router();
+var rest = require('../../helpers/rest');
+var resolve = require('../../helpers/error').Resolve;
 
 var User = require('../../models/user');
 var Waypoint = require('../../models/waypoint');
 var Race = require('../../models/race');
 
-var optOut = '-salt -hashedPassword -providerId';
-
-router
-  .route('/')
+router.route('/')
   .get(function(req, res, next) {
-    var options = {
-      page: req.query.page || 1,
-      limit: req.query.limit || 10,
-      sort: '-created'
-    };
+    var query;
+    if (req.query.page) {
+      query = User.paginate({}, {
+        page: req.query.page,
+        limit: 10,
+        sort: '-created'
+      });
+    } else {
+      query = User.find({}).exec();
+    }
 
-    User
-      .paginate({}, options, function(err, result) {
-        if (err) {
-          return next(err);
-        }
+    query.then(function(users) {
         if (req.isHtml) {
-          result.layout = false;
-          res.render('widgets/user-list', result);
+          users.layout = false;
+          res.render('partials/user/list', users);
+        } else {
+          res.json(users);
         }
-        else
-          res.json(result);
+      }).catch(function(err) {
+        resolve(err, next);
       });
   });
 
-router
-  .route('/:id')
+router.route('/:id')
   .get(function(req, res, next) {
-    User
-      .findById(req.params.id)
-      .select(optOut)
-      .lean()
-      .exec(function(err, user) {
-        if (err) {
-          return next(err);
-        }
+    User.findById(req.params.id).exec()
+      .then(function(user) {
         if (!user) {
-          return next(rest.notFound);
+          throw rest.notFound;
         }
-        if (req.isHtml) {
-          user.layout = false;
-          res.render('widgets/user-single', user);
-        }
-        else
-          res.json(user);
+        res.json(user);
+      })
+      .catch(function(err) {
+        resolve(err, next);
       });
   });
 
-router
-  .route('/:id/races')
+router.route('/:id/races')
   .get(function(req, res, next) {
-    User
-      .findById(req.params.id)
-      .exec(function(err, user) {
-        if (err) {
-          return next(err);
-        }
+    User.findById(req.params.id).exec()
+      .then(function(user) {
         if (!user) {
-          return next(rest.notFound);
+          throw rest.notFound;
+        }
+        
+        if (!req.query.page) {
+          return Race.find({}).exec();
         }
 
-        var query = {
-          author: user._id
-        };
-        var options = {
-          page: req.query.page || 1,
-          limit: req.query.limit || 10,
-          sort: '-created'
-        };
-
-        Race
-          .paginate(query, options, function(err, result) {
-            if (err) {
-              return next(err);
-            }
-            if (req.isHtml) {
-              result.layout = false;
-              res.render('widgets/race-list', result);
-            }
-            else
-              res.json(result);
-          });
+        return Race.paginate({}, {
+          page: req.query.page,
+          limit: 10,
+          sort: '-author -created'
+        });
+      })
+      .then(function(races) {
+        if (req.isHtml) {
+          races.layout = false;
+          res.render('partials/race/list', races);
+        } else {
+          res.json(races);
+        }
+      })
+      .catch(function(err) {
+        resolve(err, next);
       });
   })
   .post(function(req, res, next) {
-    User
-      .findById(req.params.id)
-      .exec(function(err, user) {
-        if (err) {
-          return next(err);
-        }
+    User.findById(req.params.id).exec()
+      .then(function(user) {
         if (!user) {
-          return next(rest.notFound);
+          throw rest.notFound;
         }
-
         req.body.author = user._id;
-        var rc = new Race(req.body);
-
-        rc.save(function(err) {
-          if (err) {
-            return next(err);
-          }
-          res.status(201);
-          res.send();
-        });
+        return new Race(req.body).save();
+      })
+      .then(function(race) {
+        res.sendStatus(201);
+      })
+      .catch(function(err) {
+        resolve(err, next);
       });
   });
 
 router
   .route('/:id/waypoints')
   .get(function(req, res, next) {
-    User
-      .findById(req.params.id)
-      .exec(function(err, user) {
-        if (err) {
-          return next(err);
-        }
-        if (!user) {
-          return next(rest.notFound);
-        }
-        Waypoint
-          .find({ author: user._id })
-          .exec(function(err, waypoints) {
-            if (err) {
-              return next(err);
-            }
-            if (req.isHtml)
-              res.render('widgets/waypoint-list', { layout: false, waypoints: waypoints });
-            else
-              res.json(waypoints);
-          });
-      });
+    next();
   })
   .post(function(req, res, next) {
-    User
-      .findById(req.params.id)
-      .exec(function(err, user) {
-        if (err) {
-          return next(err);
-        }
-        if (!user) {
-          return next(rest.notFound);
-        }
-
-        req.body.author = user._id;
-        var wp = new Waypoint(req.body);
-
-        wp.save(function(err) {
-          if (err) {
-            return next(err);
-          }
-          res.status(201);
-          res.send();
-        });
-      });
+    next();
   });
   
 module.exports = router;

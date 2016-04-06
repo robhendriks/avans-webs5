@@ -1,6 +1,6 @@
-var express = require('express');
+var router = require('express').Router();
 
-var router = express.Router();
+var rest = require('../../helpers/rest');
 
 router.use(function(req, res, next) {
   req.isHtml = (req.headers['content-type'] === 'text/html');

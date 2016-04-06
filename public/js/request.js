@@ -67,12 +67,20 @@ App.Request.prototype = {
       headers: this._headers
     })
       .fail(function(jqXHR, textStatus, errorThrown) {
-        var err = new Error(jqXHR.statusText);
-        err.status = jqXHR.status;
-        if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
-          err.error = jqXHR.responseJSON.error;
+        var json = jqXHR.responseJSON, error;
+        if (json && (error = json.error)) {
+          if (typeof error !== 'object') {
+            return cb(new Error(error));
+          }
+
+          var msg = '';
+          for (var path in error.errors) {
+            msg += error.errors[path] + '\n';
+          }
+          return cb(msg);
         }
-        return cb(err);
+
+        cb(new Error(errorThrown));
       })
       .done(function(data, textStatus, jqXHR) {
         return cb(null, data);

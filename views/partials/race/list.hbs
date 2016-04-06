@@ -1,0 +1,17 @@
+{{#if page}}
+  <div class="list-group">
+    {{#each docs}}
+      {{> race/single}}
+    {{/each}}
+  </div>
+
+  <nav>
+    <ul class="pagination">
+      {{#times pages}}
+        <li><a href="#" data-page-id="{{this}}">{{this}}</a></li>
+      {{/times}}
+    </ul>
+  </nav>
+{{else}}
+  <p>Unsupported</p>
+{{/if}}

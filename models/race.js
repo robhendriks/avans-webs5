@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
-var mongoosePaginate = require('mongoose-paginate');
+var paginate = require('mongoose-paginate');
+var validate = require('mongoose-validator');
+
 
 var Schema = mongoose.Schema;
 
@@ -9,7 +11,8 @@ var Race = new Schema({
     required: true
   },
   description: {
-    type: String
+    type: String,
+    required: true
   },
   author: {
     type: Schema.Types.ObjectId,
@@ -31,6 +34,6 @@ var Race = new Schema({
   }
 });
 
-Race.plugin(mongoosePaginate);
+Race.plugin(paginate);
 
 module.exports = mongoose.model('Race', Race);

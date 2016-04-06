@@ -1,6 +1,6 @@
 var crypto = require('crypto');
 var mongoose = require('mongoose');
-var mongoosePaginate = require('mongoose-paginate');
+var paginate = require('mongoose-paginate');
 
 var Schema = mongoose.Schema;
 
@@ -73,6 +73,6 @@ User.methods.verifyPassword = function(password) {
   return this.hashPassword(password) === this.hashedPassword;
 };
 
-User.plugin(mongoosePaginate);
+User.plugin(paginate);
 
 module.exports = mongoose.model('User', User);
