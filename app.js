@@ -33,7 +33,6 @@ require('./modules/localAuth')(app, passport);
 require('./modules/socialAuth')(app, passport);
 
 app.use('/', require('./routes'))
-app.use('/auth', require('./routes/auth'));
 app.use('/api/v1', require('./routes/api'));
 
 module.exports = app;

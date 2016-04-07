@@ -53,14 +53,18 @@ router.route('/:id/races')
         if (!user) {
           throw rest.notFound;
         }
+
+        var filters = req.query;
+        var page = req.query.page;
+        delete filters.page;
         
-        if (!req.query.page) {
-          return Race.find({}).exec();
+        if (!page) {
+          return Race.find(filters).exec();
         }
 
-        return Race.paginate({}, {
-          page: req.query.page,
-          limit: 10,
+        return Race.paginate(filters, {
+          page: page,
+          limit: 5,
           sort: '-author -created'
         });
       })

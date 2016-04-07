@@ -1,21 +1,13 @@
-var express = require('express');
-var auth = require('../modules/auth');
+var router = require('express').Router();
 
-var router = express.Router();
+var auth = require('../modules/auth');
 
 router.route('/')
   .get(auth('user'), function(req, res) {
     res.render('pages/index', { title: 'Dashboard', user: req.user });
   });
 
-router.route('/users')
-  .get(auth('admin'), function(req, res) {
-    res.render('pages/users', { title: 'Users', user: req.user });
-  });
-
-router.route('/races')
-  .get(auth('user'), function(req, res) {
-    res.render('pages/races', { title: 'Races', user: req.user });
-  });
+router.use('/auth', require('./auth'));
+router.use('/races', require('./races'));
 
 module.exports = router;

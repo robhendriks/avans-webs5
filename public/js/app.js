@@ -24,4 +24,16 @@ Util.serialize = function(elem) {
   return fields;
 };
 
+Util.format = function(format, params) {
+  if (typeof format !== 'string') {
+    throw new TypeError('format expected string');
+  }
+  if (typeof params !== 'object') {
+    throw new TypeError('params expected object');
+  }
+  return format.replace(/\{([^\}]+)\}/ig, function(match, p1, offset, str) {
+    return (p1 in params ? params[p1] : '?');
+  });
+};
+
 window.App = new App();

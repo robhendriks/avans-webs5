@@ -1,0 +1,111 @@
+<div class="container">
+  <div class="rows">
+    <div class="col-md-12">
+      <h1>Races</h1>
+      <p class="lead">Manage your races</p>
+      {{!-- <hr> --}}
+    </div>
+    <div class="col-sm-6 col-md-8">
+      <div id="races"></div> 
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <form id="form">
+            <div class="form-group">
+              <label for="name" class="control-label">Name</label>
+              <input type="text" class="form-control" name="name" placeholder="Hello">
+              <span id="nameHelp" class="help-block"></span>
+            </div>
+            <div class="form-group">
+              <label for="description" class="control-label">Description</label>
+              <input type="text" class="form-control" name="description" placeholder="World">
+              <span id="descriptionHelp" class="help-block"></span>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-block btn-success">Create race</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  
+  var $races;
+  var $form;
+
+  var Race = {
+
+    getAll: function(page, cb) {
+      new App.Request()
+        .get('/users/{userId}/races?page=' + page)
+        .header('Content-Type', 'text/html')
+        .exec(function(err, data) {
+          cb(err, data);
+        });
+    }
+
+  };
+
+  function loadRaces(page) {
+    page = page || 1;
+    Race.getAll(page, function(err, html) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      $races.html(html);
+
+      $('a[data-page=' + page + ']', $races).parent().addClass('active');
+    });
+  }
+
+  function loadPage(evt) {
+    loadRaces($(this).attr('data-page'));
+    evt.preventDefault();
+  }
+
+  function saveRace(evt) {
+    var data = Util.serialize($(this));
+    new App.Request()
+      .post('/users/{userId}/races')
+      .data(data)
+      .exec(function(err, data) {
+        if (err) {
+          showErrors(err.errors);
+          return;
+        }
+        loadRaces();
+        showErrors();
+
+        $form.trigger('reset');
+      });
+
+    evt.preventDefault();
+  }
+
+  function showErrors(errors) {
+    $('span[id$=Help]', $form).hide().parent().removeClass('has-error');
+    
+    if (!errors) { return; }
+    var $help;
+    for (var key in errors) {
+      $help = $('#' + key + 'Help', $form);
+      $help.text(errors[key]);  
+      $help.show().parent().addClass('has-error');
+    }
+  }
+
+  window.onload = function() {
+    $races = $('#races');
+    $form = $('#form').submit(saveRace);
+
+    loadRaces();
+
+    $('body').on('click', 'a[data-page]', loadPage);
+  };
+
+</script>

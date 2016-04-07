@@ -15,7 +15,7 @@ App.Request.prototype = {
   },
 
   url: function(url) {
-    this._url = App.baseUrl + url;
+    this._url = App.baseUrl + Util.format(url, App.args);
     return this;
   },
 
@@ -72,12 +72,9 @@ App.Request.prototype = {
           if (typeof error !== 'object') {
             return cb(new Error(error));
           }
-
-          var msg = '';
-          for (var path in error.errors) {
-            msg += error.errors[path] + '\n';
-          }
-          return cb(msg);
+          var err = new Error(error.message);
+          err.errors = error.errors;
+          return cb(err);
         }
 
         cb(new Error(errorThrown));

@@ -141,7 +141,7 @@
         <attribute name="value" type="string">text/html</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">Content-Type</attribute>
-        <attribute name="enabled" type="bool">1</attribute>
+        <attribute name="enabled" type="bool">0</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -189,7 +189,7 @@
     </object>
     <object type="LMREQUEST" id="z136">
         <attribute name="uuid" type="string">2501B185-9068-4766-B0CB-B19A6C98F16B</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"23503749-DC07-412B-90E8-153924C8C8A6"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/users\\/",{"data":{"environmentVariable":"3BD70B06-0252-4C49-9533-79C0DF8CF885"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/races"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"23503749-DC07-412B-90E8-153924C8C8A6"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/users\\/",{"data":{"environmentVariable":"3BD70B06-0252-4C49-9533-79C0DF8CF885"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/races?page=1"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -382,7 +382,7 @@
         <attribute name="value" type="string">text/html</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">Content-Type</attribute>
-        <attribute name="enabled" type="bool">0</attribute>
+        <attribute name="enabled" type="bool">1</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -511,7 +511,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z200"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z202">
-        <attribute name="value" type="string">57058c1b2c0b225b02d56184</attribute>
+        <attribute name="value" type="string">57055882b5a415ae022e8570</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z105"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z207"></relationship>
     </object>
