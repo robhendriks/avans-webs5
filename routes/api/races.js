@@ -88,6 +88,7 @@ router.route('/:id/waypoints')
       .then(function(waypoints) {
         if (req.isHtml) {
           waypoints.layout = false;
+          waypoints.isEmpty = (waypoints.docs.length === 0);
           res.render('partials/waypoint/list', waypoints);
         } else {
           res.json(waypoints);

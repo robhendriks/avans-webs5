@@ -1,16 +1,26 @@
 {{#if page}}
-  <table class="table table-bordered table-striped">
-    <thead>
-      <th>Name</th>
-      <th>Location</th>
-    </thead>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <th>Name</th>
+        <th>Location</th>
+      </thead>
 
-    <tbody>
-      {{#each docs}}
-        {{> waypoint/single}}
-      {{/each}}
-    </tbody>
-  </table>
+      <tbody>
+        {{#each docs}}
+          {{> waypoint/single}}
+        {{/each}}
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <td colspan="2" class="text-center">
+            <a href="#" id="newWaypoint">Add waypoint</a>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
   <nav>
     <ul class="pagination">
