@@ -1,3 +1,6 @@
+/*
+ * VARIABLES
+ */
 var $modal;
     
 var $race,
@@ -5,7 +8,6 @@ var $race,
     $raceDescription,
     $raceAuthor,
     $raceCreated,
-    $newRace,
     $raceList;
     
 var $waypoint,
@@ -16,14 +18,22 @@ var selectedRace;
 var formCache = {};
 var currentForm;
 
+/*
+ * MODAL
+ */
 function okModal(evt) {
   evt.preventDefault();
+  $('form', $modal).submit();
 }
 
 function cancelModal(evt) {
   evt.preventDefault();
+  $('form', $modal).trigger('reset');
 }
 
+/*
+ * FORM
+ */
 function getForm(name, cb) {
   if (name in formCache) {
     return cb(null, formCache[name]);
@@ -40,7 +50,7 @@ function getForm(name, cb) {
     });
 }
 
-function setForm(name) {
+function setForm(name, handler) {
   if (currentForm && currentForm.name === name) {
     $modal.modal('show');
     return;
@@ -51,9 +61,9 @@ function setForm(name) {
       return alert(err);
     }
 
-    form.name = name;
-    form.elem = $('form', $modal);
     currentForm = form;
+    currentForm.name = name;
+    currentForm.handler = handler;
 
     $('.modal-body', $modal).html(form.html);
     $('.modal-title', $modal).text(form.title);
@@ -62,20 +72,9 @@ function setForm(name) {
   });
 };
 
-function showAlert(message) {
-  $alert.html(message.replace(/\n/g, '<br>')).show();
-}
-
-function newRace(evt) {
-  evt.preventDefault();
-  setForm('race');
-}
-
-function newWaypoint(evt) {
-  evt.preventDefault();
-  setForm('waypoint');
-}
-
+/*
+ * RACE
+ */
 function selectRace(race) {
   if (!race) {
     selectedRace = null;
@@ -96,22 +95,6 @@ function selectRace(race) {
 
   getWaypoints();
 }
-
-// function addRace() {
-//   evt.preventDefault();
-  
-//   var race = Util.serialize($raceForm);
-//   new App.Request()
-//     .post('users/' + user.id + '/races')
-//     .data(race)
-//     .exec(function(err, data) {
-//       if (err) {
-//         return showAlert(err);
-//       }
-//       $raceForm.trigger('reset');
-//       getRaces(1, true);
-//     });
-// }
 
 function getRace(raceId) {
   new App.Request()
@@ -161,16 +144,34 @@ function goToRaces(evt) {
   getRaces($(this).attr('data-page-id'));
 }
 
-function goToWaypoint(evt) {
+function newRace(evt) {
   evt.preventDefault();
-  alert('m8');
+  setForm('race', saveRace);
 }
 
-function goToWaypoints(evt) {
-  evt.preventDefault();
-  getWaypoints($(this).attr('data-page-id'));
+function saveRace(evt) {
+  var $form = $('form', $modal);
+
+  var race = Util.serialize($form);
+  
+  new App.Request()
+    .post('users/' + user.id + '/races')
+    .data(race)
+    .exec(function(err, data) {
+      if (err) {
+        return alert(err);
+      }
+      
+      $form.trigger('reset');
+      $modal.modal('hide');
+
+      getRaces(1, true);
+    });
 }
 
+/*
+ * WAYPOINT
+ */
 function getWaypoints(page) {
   if (!selectedRace) { return; }
 
@@ -192,6 +193,28 @@ function getWaypoints(page) {
     });
 }
 
+function goToWaypoint(evt) {
+  evt.preventDefault();
+  alert('m8');
+}
+
+function goToWaypoints(evt) {
+  evt.preventDefault();
+  getWaypoints($(this).attr('data-page-id'));
+}
+
+function newWaypoint(evt) {
+  evt.preventDefault();
+  setForm('waypoint', saveWaypoint);
+}
+
+function saveWaypoint(evt) {
+  alert('waypoint!');
+}
+
+/*
+ * MAIN
+ */
 function init() {
   $modal = $('#modal');
 
@@ -200,7 +223,6 @@ function init() {
   $raceDescription = $('#raceDescription');
   $raceAuthor = $('#raceAuthor');
   $raceCreated = $('#raceCreated');
-  $newRace = $('#newRace');
   $raceList = $('#raceList');
 
   $waypoints = $('#waypoint');
@@ -211,6 +233,11 @@ function init() {
 
   $('body').on('click', '#modal-ok', okModal);
   $('body').on('click', '#modal-cancel', cancelModal);
+
+  $('body').on('submit', '#modal form', function(evt) {
+    evt.preventDefault();
+    currentForm.handler();
+  });
 
   selectRace(null);
   getRaces();
