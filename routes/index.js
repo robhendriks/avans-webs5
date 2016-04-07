@@ -1,10 +1,16 @@
 var router = require('express').Router();
 
+var resources = require('../resources');
 var auth = require('../modules/auth');
 
 router.route('/')
   .get(auth('user'), function(req, res) {
     res.render('pages/index', { title: 'Dashboard', user: req.user });
+  });
+
+router.route('/docs')
+  .get(auth('user'), function(req, res) {
+    res.render('pages/docs', { title: 'Documentation', user: req.user, resources: resources });
   });
 
 router.use('/auth', require('./auth'));

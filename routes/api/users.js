@@ -97,8 +97,24 @@ router.route('/:id/races')
       });
   });
 
-router
-  .route('/:id/waypoints')
+router.route('/:id/races/autocomplete')
+  .get(function(req, res, next) {
+    User.findById(req.params.id).exec()
+      .then(function(user) {
+        if (!user) {
+          throw rest.notFound;
+        }
+        return Race.find({}, 'id name').exec();
+      })
+      .then(function(races) {
+        res.json(races);
+      })
+      .catch(function(err) {
+        resolve(err, next);
+      })
+  });
+
+router.route('/:id/waypoints')
   .get(function(req, res, next) {
     next();
   })

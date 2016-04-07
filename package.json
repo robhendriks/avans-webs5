@@ -16,6 +16,8 @@
     "mongoose-validator": "^1.2.4",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.0",
+    "passport-github": "^1.1.0",
+    "passport-google-plus": "^0.5.1",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4"
   },

@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="rows">
+    <div class="col-md-12">
+      <div id="race">
+        <h1 id="raceName">{name}</h1>
+        <p id="raceDescription" class="lead">{description}</p>
+      </div>
+      <div id="alert" class="alert alert-danger">This object doesn't exist anymore</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var $alert;
+
+  var $race,
+      $raceName,
+      $raceDescription;
+
+  function getRace() {
+    new App.Request()
+      .get('races/{raceId}')
+      .exec(function(err, data) {
+        if (err) {
+          $alert.show();
+          return;
+        }
+
+        $raceName.text(data.name);
+        $raceDescription.text(data.description);
+        $race.show();
+      });
+  }
+
+  window.onload = function() {
+    $alert = $('#alert').hide();
+
+    $race = $('#race').hide();
+    $raceName = $('#raceName');
+    $raceDescription = $('#raceDescription');
+
+    getRace();
+  };
+</script>

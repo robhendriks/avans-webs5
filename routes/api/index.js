@@ -10,7 +10,6 @@ router.use(function(req, res, next) {
 router.use('/users', require('./users'));
 router.use('/waypoints', require('./waypoints'));
 router.use('/races', require('./races'));
-router.use('/forms', require('./forms'));
 
 router.use(function(req, res, next) {
   next(rest.notFound);

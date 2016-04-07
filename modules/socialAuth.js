@@ -1,6 +1,7 @@
 var crypto = require('crypto');
 
 var FacebookStrategy = require('passport-facebook');
+var GitHubStrategy = require('passport-github').Strategy;
 
 var User = require('../models/user');
 
