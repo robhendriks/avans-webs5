@@ -141,7 +141,7 @@
         <attribute name="value" type="string">text/html</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">Content-Type</attribute>
-        <attribute name="enabled" type="bool">0</attribute>
+        <attribute name="enabled" type="bool">1</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -261,7 +261,7 @@
         <attribute name="name" type="string">Get All</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z147"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z185 z151 z194"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z194 z151"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z149">
         <attribute name="value" type="string">text/html</attribute>
@@ -367,16 +367,6 @@
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z133"></relationship>
-    </object>
-    <object type="LMKEYVALUE" id="z185">
-        <attribute name="value" type="string">1</attribute>
-        <attribute name="order" type="int64">1</attribute>
-        <attribute name="name" type="string">page</attribute>
-        <attribute name="enabled" type="bool">1</attribute>
-        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z148"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z186">
         <attribute name="value" type="string">text/html</attribute>

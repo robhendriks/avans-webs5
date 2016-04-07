@@ -35,8 +35,8 @@
         },
         "examples": [
           { 
-            "suffix":"/<code>57058c1b2c0b225b02d56184</code>", 
-            "text": "Fetches the user with ID <code>57058c1b2c0b225b02d56184</code>." 
+            "suffix":"/<code>1337</code>", 
+            "text": "Fetches the user with ID <code>1337</code>." 
           }
         ]
       }
@@ -58,9 +58,10 @@
             "description": "Page number"
           }
         },
-        "examples": [
-          { "text": "" }
-        ]
+        "examples": [{ 
+          "suffix": "<code>?page=1</code>", 
+          "text": "Fetches the first page of races." 
+        }]
       },
       {
         "description": "Get a specific race.",
@@ -73,25 +74,40 @@
             "description": "Race ID" 
           }
         },
-        "examples": [
-          { "text": "" }
-        ]
+        "examples": [{ 
+          "suffix":"/<code>1337</code>", 
+          "text": "Fetches the race with ID <code>1337</code>." 
+        }]
       }
     ]
   },
   {
     "title": "Waypoints",
-    "description": "Allows you to access, create and remove races.",
+    "description": "Allows you to access, create and remove waypoints.",
     "url": "/waypoints",
     "endpoints": [
       {
-        "description": "Get all users.",
-        "method": "GET"
+        "description": "Get all waypoints.",
+        "method": "GET",
+        "examples": [{ 
+          "text": "Fetches all waypoints." 
+        }]
       },
       {
         "description": "Get a specific waypoint.",
         "method": "GET",
-        "url": "/:id"
+        "url": "/:id",
+        "parameters": {
+          "id": { 
+            "type": "String", 
+            "required": true,
+            "description": "Waypoint ID" 
+          }
+        },
+        "examples": [{ 
+          "suffix":"/<code>1337</code>", 
+          "text": "Fetches the waypoint with ID <code>1337</code>." 
+        }]
       }
     ]
   }
