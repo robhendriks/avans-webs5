@@ -22,11 +22,6 @@ var Race = new Schema({
   created: {
     type: Date,
     default: Date.now
-  },
-  state: {
-    type: String,
-    enum: ['none', 'playing', 'ended'],
-    default: 'none'
   }
 });
 

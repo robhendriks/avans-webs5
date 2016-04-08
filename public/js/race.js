@@ -9,6 +9,12 @@ var mapCenter;
 var markers = {};
 var activeMarkers = [];
 
+var selectedMarker;
+var selectedWaypoint;
+var selectedPlace;
+
+var infoWindow;
+
 function initMap() {  
   mapElem = document.getElementById('map');
   mapMode = 'view';
@@ -17,6 +23,20 @@ function initMap() {
     center: mapCenter,
     zoom: 14
   });
+
+  infoWindow = new google.maps.InfoWindow();
+}
+
+function getMarkerById(id) {
+  if (!activeMarkers)
+    return false;
+
+  for (var i = 0; i < activeMarkers.length; i++) {
+    if (id === activeMarkers[i].waypoint._id)
+      return activeMarkers[i];
+  }
+
+  return false;
 }
 
 function setMarkers(markers) {
@@ -44,11 +64,21 @@ function setMarkers(markers) {
 }
 
 function viewClick() {
-  var iw = new google.maps.InfoWindow({
-    content: 'sukout, uwotblud?'
-  });
+  selectedMarker = this;
 
-  iw.open(map, this);
+  var waypoint;
+  selectedWaypoint = waypoint = this.waypoint;
+
+  var html = '';
+  html += '<h5>'+waypoint.name+'</h5>';
+  html += '<a href="#" id="removeWaypoint">Remove</a>';
+
+  map.panTo({lat: waypoint.lat, lng: waypoint.lng});
+
+  infoWindow.setContent(html);
+  infoWindow.open(map, this);
+
+  highlightWaypoint(waypoint);
 }
 
 function getViewMarkers(cb) {
@@ -88,7 +118,19 @@ function toggleView() {
 }
 
 function discoverClick() {
+  selectedMarker = this;
 
+  var place;
+  selectedPlace = place = this.place;
+
+  var html = '';
+  html += '<h5>'+place.name+'</h5>';
+  html += '<a href="#" id="addWaypoint">Add</a>';
+
+  map.panTo({lat: place.lat, lng: place.lng});
+
+  infoWindow.setContent(html);
+  infoWindow.open(map, this);
 }
 
 function getDiscoverMarkers(cb) {
@@ -132,6 +174,7 @@ function getDiscoverMarkers(cb) {
 }
 
 function toggleDiscover() {
+  highlightWaypoint(null);
   mapMode = 'discover';
 
   $discover.text('View');
@@ -139,6 +182,8 @@ function toggleDiscover() {
 }
 
 function toggleMap(mode) {
+  infoWindow.close();
+
   switch(mode) {
     case 'view': toggleView(); break;
     case 'discover': toggleDiscover(); break;
@@ -190,6 +235,7 @@ function getWaypoints(cb) {
   waypoints = [];
 
   Request.get('/api/v1/races/'+raceId+'/waypoints')
+    .body({s: 'created=desc'})
     .call(function(err, data) {
       if (err) {
         return cb(err);
@@ -200,10 +246,10 @@ function getWaypoints(cb) {
 }
 
 function showWaypoints() {
-  if (!waypoints || waypoints.length === 0) {
-    $waypoints.empty();
+  $waypoints.empty();
+
+  if (!waypoints)
     return;
-  }
 
   var waypoint;
   var $anchor;
@@ -224,6 +270,82 @@ function showWaypoints() {
   }
 }
 
+function highlightWaypoint(waypoint) {
+  if (mapMode !== 'view')
+    return;
+
+  $('a[data-id]', $waypoints).removeClass('active');
+  
+  if (!waypoint) 
+    return;
+
+  var id = waypoint._id;
+  $('a[data-id='+id+']', $waypoints).addClass('active');
+}
+
+function highlightMarker() {
+  $('a[data-id]', $waypoints).removeClass('active');
+
+  if (mapMode !== 'view')
+    toggleMode();
+  if (!activeMarkers)
+    return;
+
+  var $this = $(this).addClass('active');
+
+  var id = $this.attr('data-id');
+  var marker = getMarkerById(id);
+  if (!marker)
+    return;
+
+  google.maps.event.trigger(marker, 'click');
+}
+
+function reloadData() {
+  getWaypoints(function(err) {
+    showWaypoints(err);
+
+    markers.view = null;
+    getViewMarkers(function(results) {
+      markers.view = results;
+
+      if (mapMode === 'view' && selectedMarker)
+        selectedMarker.setMap(null);
+    });
+  });
+}
+
+function addPlace() {
+  if (mapMode !== 'discover' || !selectedPlace)
+    return;
+
+  var body = {
+    name: selectedPlace.name,
+    lat: selectedPlace.lat,
+    lng: selectedPlace.lng
+  };
+
+  Request.post('/api/v1/races/'+raceId+'/waypoints')
+    .body(body)
+    .call(function(err) {
+      if (!err) reloadData();
+    });
+}
+
+function removeWaypoint() {
+  if (mapMode !== 'view' || !selectedWaypoint)
+    return;
+
+  var id = selectedWaypoint._id;
+  Request.delete('/api/v1/waypoints/'+id)
+    .call(function(err) {
+      if (err) {
+        return;
+      }
+      reloadData();
+    });
+}
+
 function initApp() {
   $race = $('#race');
   $raceName = $('#raceName');
@@ -232,6 +354,11 @@ function initApp() {
   $waypoints = $('#waypoints');
   $discover = $('#discover').click(toggleMode);
 
+  $('body').on('click', 'a[data-id]', highlightMarker);
+
+  $('body').on('click', '#addWaypoint', addPlace);
+  $('body').on('click', '#removeWaypoint', removeWaypoint);
+
   getRace(showRace);
   getWaypoints(showWaypoints);
 }
@@ -239,192 +366,3 @@ function initApp() {
 window.onload = function() {
   App.load(initApp);
 };
-
-// var $race,
-//     $raceName,
-//     $raceDesc,
-//     $raceCreated;
-
-// var $waypoints;
-
-// var waypoints = [];
-
-// var first = true;
-
-// var map, 
-//     mapCenter,
-//     mapMode;
-
-// var markers = [];
-
-// var places;
-
-// function initMap() {
-//   mapCenter = {
-//     lat: 51.6891176, 
-//     lng: 5.286312
-//   };
-
-//   map = new google.maps.Map(document.getElementById('map'), {
-//     center: mapCenter,
-//     zoom: 14
-//   });
-// }
-
-// function addMarker(data, index) {
-//   var position = {lat: data.lat, lng: data.lng};
-
-//   var marker = new google.maps.Marker({
-//     position: position,
-//     title: data.name
-//   });
-
-//   marker.index = index;
-//   marker.data = data;
-//   marker.addListener('click', toggleMarker);
-//   markers.push(marker);
-// }
-
-// function toggleMarker() {
-//   if (mapMode !== 'view') { return; }
-//   map.panTo(this.position);
-
-//   $anchor = $('a[data-id='+this.index+']', $waypoints);
-//   $anchor.siblings().removeClass('active');
-//   $anchor.addClass('active');
-// }
-
-// function setMapOnAll(map) {
-//   if (markers.length === 0) return;
-
-//   var bounds = new google.maps.LatLngBounds();
-//   var marker;
-
-//   for (var i = 0; i < markers.length; i++) {
-//     marker = markers[i];
-//     marker.setMap(map);
-
-//     if (map && first) {
-//       bounds.extend(marker.position);
-//     }
-//   }
-
-//   if (!map || !first) return;
-//   map.fitBounds(bounds);
-//   first = false;
-// }
-
-// function switchToView() {
-//   $create.text('Create waypoint');
-//   $delete.show();
-
-//   setMapOnAll(map);
-// }
-
-// function switchToEdit() {
-//   $create.text('Cancel');
-//   $delete.hide();
-
-//   $('a[data-id]', $waypoints).removeClass('active');
-
-//   setMapOnAll(null);
-// }
-
-// function switchToMap(mode) {
-//   switch (mode) {
-//     default: return;
-//     case 'view': switchToView(); break;
-//     case 'edit': switchToEdit(); break;
-//   }
-//   mapMode = mode;
-// }
-
-// function toggleWaypoint(evt) {
-//   if (mapMode !== 'view') {
-//     switchToMap('view');
-//   }
-
-//   var $this = $(this);
-
-//   $this.addClass('active');
-//   $this.siblings().removeClass('active');
-
-//   var index = $this.attr('data-id');
-//   var marker = markers[index];
-
-//   map.panTo(marker.position);
-
-//   evt.preventDefault();
-// }
-
-// function createWaypoint() {
-//   switchToMap(mapMode === 'edit' ? 'view' : 'edit');
-// }
-
-// function deleteWaypoint() {
-
-// }
-
-// function getRace() {
-//   Request.get('/api/v1/races/'+race._id)
-//     .call(function(err, data) {
-//       if (err) {
-//         alert(err);
-//         return err;
-//       }
-
-//       $raceName.text(data.name);
-//       $raceDesc.text(data.description);
-//       $raceCreated.text($.timeago(data.created));
-
-//       $race.show();
-//     });
-// }
-
-// function getWaypoints() {
-//   Request.get('/api/v1/races/'+race._id+'/waypoints')
-//     .call(function(err, data) {
-//       if (err) {
-//         alert(err);
-//         return;
-//       }
-
-//       var waypoint;
-//       waypoints = [];
-      
-//       var html = '';
-
-//       for (var n = 0, len = data.length; n < len; n++) {
-//         waypoint = data[n];
-//         waypoints.push(waypoint);
-
-//         html += '<a class="list-group-item" href="#" data-id="'+n+'">';
-//         html += '<i class="fa fa-map-marker"></i>'+waypoint.name+'</a>';
-
-//         addMarker(waypoint, n);
-//       }
-
-//       switchToMap('view');
-//       $waypoints.html(html).show();
-//     });
-// }
-
-// function appLoad() {
-//   $race = $('#race');
-//   $raceName = $('#raceName');
-//   $raceDesc = $('#raceDesc');
-
-//   $waypoints = $('#waypoints');
-
-//   $create = $('#create').click(createWaypoint);
-//   $delete = $('#delete').click(deleteWaypoint);
-
-//   $('body').on('click', 'a[data-id]', toggleWaypoint);
-
-//   getRace();
-//   getWaypoints();
-// }
-
-// window.onload = function() {
-//   App.load(appLoad);
-// };
