@@ -1,36 +1,26 @@
 var mongoose = require('mongoose');
-var validate = require('mongoose-validator');
+
 var paginate = require('mongoose-paginate');
+var validate = require('mongoose-validator');
 
 var Schema = mongoose.Schema;
-
-var nameValidator = [
-  validate({
-    validator: 'isLength',
-    arguments: [3, 50],
-    message: '{PATH} should be between {ARGS[0]} and {ARGS[1]} characters'
-  })
-];
 
 var Waypoint = new Schema({
   name: {
     type: String,
-    required: true,
-    validate: nameValidator
+    required: true
   },
-  geo: {
-    lat: {
-      type: Number,
-      default: 0
-    },
-    lng: {
-      type: Number,
-      default: 0
-    }
+  lat: {
+    type: Number,
+    default: 0
   },
-  author: {
+  lng: {
+    type: Number,
+    default: 0
+  },
+  race: {
     type: Schema.ObjectId,
-    ref: 'User',
+    ref: 'Race',
     required: true
   },
   created: {

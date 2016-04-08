@@ -1,5 +1,5 @@
 <style>
-  #searchResults {
+  #results {
     position: absolute;
     z-index: 1000;
     width: 100%;
@@ -14,6 +14,10 @@
     </div>
     <div class="col-sm-6 col-md-8">
       <div id="races"></div> 
+      <nav>
+        <ul id="pager" class="pagination">
+        </ul>
+      </nav>
     </div>
     <div class="col-sm-6 col-md-4">
       <div class="panel panel-default">
@@ -21,7 +25,7 @@
           <div class="form-group" style="position: relative;">
             <label for="search" class="control-label">Quick search</label>
             <input type="text" class="form-control" id="search" placeholder="Search.." autocomplete="off">
-            <div id="searchResults" class="list-group">
+            <div id="results" class="list-group">
             </div>
           </div>
         </div>
@@ -49,175 +53,4 @@
   </div>
 </div>
 
-<script>
-  
-  var $races;
-  var $form;
-
-  var Race = {
-
-    getAll: function(page, cb) {
-      new App.Request()
-        .get('/users/{userId}/races?page=' + page)
-        .header('Content-Type', 'text/html')
-        .exec(function(err, data) {
-          cb(err, data);
-        });
-    }
-
-  };
-
-  function loadRaces(page) {
-    page = page || 1;
-    Race.getAll(page, function(err, html) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      $races.html(html);
-
-      $('a[data-page=' + page + ']', $races).parent().addClass('active');
-    });
-  }
-
-  function loadPage(evt) {
-    loadRaces($(this).attr('data-page'));
-    evt.preventDefault();
-  }
-
-  function saveRace(evt) {
-    var data = Util.serialize($(this));
-    new App.Request()
-      .post('users/{userId}/races')
-      .data(data)
-      .exec(function(err, data) {
-        if (err) {
-          showErrors(err.errors);
-          return;
-        }
-        loadRaces();
-        getCache();
-        showErrors();
-
-        $form.trigger('reset');
-      });
-
-    evt.preventDefault();
-  }
-
-  function showErrors(errors) {
-    var $groups = $('.form-group', $form),
-        $group;
-
-    if (!errors) {
-      $groups.removeClass('has-error');
-      $groups.children('span').hide();
-      return;
-    }
-
-    var path,
-        error;
-
-    $groups.each(function() {
-      $group = $(this);
-      
-      path = $group.attr('data-path');
-      if (!(path in errors)) {
-        $group.removeClass('has-error');
-        $group.children('.help-block').hide();
-        return;
-      }
-      error = errors[path]; 
-      $group.addClass('has-error');
-      $group.children('.help-block').text(error).show();
-    });
-  }
-
-  function init() {
-    $races = $('#races');
-    $form = $('#form').submit(saveRace);
-
-    loadRaces();
-
-    $('body').on('click', 'a[data-page]', loadPage);
-  };
-
-  var $search,
-      $searchResults;
-
-  var searchState = 'empty',
-      searchReady = false,
-      searchCache = [],
-      searchCacheSize;
-
-  function escapeStr(str) {
-    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-  }
-
-  function onSearch(evt) {
-    if (!searchReady) { return; }
-
-    var value = escapeStr(this.value);
-    if (value.length === 0) { 
-      $searchResults.empty();
-      return; 
-    }
-
-    var html = '', expr, name;
-    for (var i = searchCacheSize - 1; i >= 0; i--) {
-      result = searchCache[i];
-      expr = new RegExp('(' + value + ')', 'i');
-
-      if (expr.test(result.name)) {
-        name = result.name.replace(expr, function(match, p1) {
-          return '<strong>' + p1 + '</strong>';
-        });
-        html += '<a href="/races/' + result._id + '" class="list-group-item">' + name + '</a>';
-      }
-    }
-    $searchResults.html(html);
-  }
-
-  function getCache() {
-    searchReady = false;
-    new App.Request()
-      .get('users/{userId}/races/autocomplete')
-      .exec(function(err, data) {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        searchReady = true;
-        searchCache = data;
-        searchCacheSize = data.length;
-      });
-  }
-
-  function onFocus() {
-    $searchResults.show();
-    $search.trigger('input');
-  }
-
-  function onBlur() {
-    setTimeout(function() {
-      $searchResults.empty();
-      $searchResults.hide();
-    }, 250);
-  }
-
-  function initSearch() {
-    $search = $('#search')
-      .on('input', onSearch)
-      .on('focus', onFocus)
-      .on('blur', onBlur);
-
-    $searchResults = $('#searchResults');
-    getCache();
-  }
-
-  window.onload = function() {
-    init();
-    initSearch();
-  };
-
-</script>
+<script src="/js/races.js"></script>

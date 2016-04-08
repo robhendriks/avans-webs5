@@ -1,45 +1,52 @@
-var router = require('express').Router();
-
 var rest = require('../../helpers/rest');
 var resolve = require('../../helpers/error').Resolve;
 
-var User = require('../../models/user');
-var Waypoint = require('../../models/waypoint');
 var Race = require('../../models/race');
+var Waypoint = require('../../models/waypoint');
+
+var router = require('express').Router();
 
 router.route('/')
   .get(function(req, res, next) {
-    var query;
+    var promise;
     if (req.query.page) {
-      query = Race.paginate({}, {
-        page: req.query.page,
-        limit: 10,
-        sort: '-created',
-        populate: {
-          path: 'author',
-          select: '-salt -hashedPassword'
-        }
+      promise = Race.paginate(req.find, {
+        page: req.query.page || 1,
+        limit: req.query.limit || 10,
+        sort: req.sort
       });
     } else {
-      query = Race.find({}).exec();
+      promise = Race.find(req.find)
+        .sort(req.sort)
+        .exec();
     }
 
-    query.then(function(races) {
-        if (req.isHtml) {
-          races.layout = false;
-          res.render('partials/race/list', races);
-        } else {
-          res.json(races);
-        }
-      }).catch(function(err) {
-        resolve(err);
+    promise
+      .then(function(races) {
+        res.json(races);
+      })
+      .catch(function(err) {
+        next(err);
+      });
+  });
+
+router.route('/autocomplete')
+  .get(function(res, res, next) {
+    Race.find()
+      .select('id name')
+      .sort({name: 1})
+      .exec()
+      .then(function(races) {
+        res.json(races);
+      })
+      .catch(function(err) {
+        next(err);
       });
   });
 
 router.route('/:id')
   .get(function(req, res, next) {
     Race.findById(req.params.id)
-      .populate('author', '-salt -hashedPassword')
       .exec()
       .then(function(race) {
         if (!race) {
@@ -48,77 +55,74 @@ router.route('/:id')
         res.json(race);
       })
       .catch(function(err) {
-        resolve(err, next);
+        next(err);
       });
   })
   .delete(function(req, res, next) {
-    Race.findByIdAndRemove(req.params.id)
+    Race.findById(req.params.id)
       .exec()
       .then(function(race) {
         if (!race) {
           throw rest.notFound;
         }
+        return race.remove();
+      })
+      .then(function(race) {
+        return Waypoint.remove({race: race.id});
+      })
+      .then(function() {
         res.sendStatus(204);
       })
       .catch(function(err) {
-        resolve(err, next);
+        next(err);
       });
   });
 
 router.route('/:id/waypoints')
   .get(function(req, res, next) {
-  	Race.findById(req.params.id)
-  		.exec()
-  		.then(function(race) {
-  			if (!race) {
-  				throw rest.notFound;
-  			}
+    Race.findById(req.params.id)
+      .populate('waypoints')
+      .exec()
+      .then(function(race) {
+        if (!race) {
+          throw rest.notFound;
+        }
+
+        req.find.race = race.id;
 
         if (req.query.page) {
-          return Waypoint.paginate({
-            _id: {'$in': race.waypoints}
-          }, {
-            page: req.query.page,
-            limit: 5,
-            sort: '-created'
+          return Waypoint.paginate(req.find, {
+            page: req.query.page || 1,
+            limit: req.query.limit || 10,
+            sort: req.sort
           });
         }
-        return Waypoint.find({_id: {'$in': race.waypoints}}).exec();
-  		})
-      .then(function(waypoints) {
-        if (req.isHtml) {
-          waypoints.layout = false;
-          waypoints.isEmpty = (waypoints.docs.length === 0);
-          res.render('partials/waypoint/list', waypoints);
-        } else {
-          res.json(waypoints);
-        }
-      })
-  		.catch(function(err) {
-  			resolve(err, next);
-  		});
 
+        return Waypoint.find(req.find)
+          .sort(req.sort)
+          .exec();
+      })
+      .then(function(waypoints) {
+        res.json(waypoints);
+      })
+      .catch(function(err) {
+        next(err);
+      });
   })
   .post(function(req, res, next) {
-  	var tmp;
-    Race.findById(req.params.id)
-    	.exec()
+    Race.findById(req.params.id).exec()
       .then(function(race) {
-        if (!race) { 
-        	throw rest.notFound; 
+        if (!race) {
+          throw rest.notFound;
         }
-        tmp = race;
+        req.body.race = race.id;
         return new Waypoint(req.body).save();
       })
       .then(function(waypoint) {
-      	tmp.waypoints.push(waypoint);
-      	return tmp.save();
-      })
-      .then(function() {
-      	res.sendStatus(201);
+        res.sendStatus(201);
       })
       .catch(function(err) {
-      	resolve(err, next);
+        resolve(err, next);
       });
   });
 
