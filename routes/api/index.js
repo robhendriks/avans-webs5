@@ -1,11 +1,9 @@
 var router = require('express').Router();
 
+var filter = require('../../helpers/filter');
 var rest = require('../../helpers/rest');
 
-router.use(function(req, res, next) {
-  req.isHtml = (req.headers['content-type'] === 'text/html');
-  next();
-});
+router.use(filter);
 
 router.use('/users', require('./users'));
 router.use('/waypoints', require('./waypoints'));

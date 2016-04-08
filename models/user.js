@@ -12,11 +12,13 @@ var User = new Schema({
   },
   hashedPassword: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
   salt: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
   name: {
     first: {
