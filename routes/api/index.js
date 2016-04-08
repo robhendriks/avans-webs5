@@ -8,6 +8,7 @@ router.use(filter);
 router.use('/users', require('./users'));
 router.use('/waypoints', require('./waypoints'));
 router.use('/races', require('./races'));
+router.use('/places', require('./places'));
 
 router.use(function(req, res, next) {
   next(rest.notFound);

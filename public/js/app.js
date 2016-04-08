@@ -142,7 +142,8 @@ Request.prototype = {
       url: this._url,
       type: this._method,
       data: this._body,
-      headers: this._headers
+      headers: this._headers,
+      async: true
     })
       .fail(function(jqXHR, textStatus, errorThrown) {
         var json, err;
