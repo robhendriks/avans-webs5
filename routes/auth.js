@@ -40,4 +40,14 @@ router.route('/facebook/callback')
     failureFlash: true
   }));
 
+router.route('/github')
+  .get(auth('guest'), passport.authenticate('github'));
+
+router.route('/github/callback')
+  .get(auth('guest'), passport.authenticate('github', { 
+    successRedirect: '/',
+    failureRedirect: '/auth/signin',
+    failureFlash: true
+  }));
+
 module.exports = router;
