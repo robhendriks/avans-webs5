@@ -13,6 +13,11 @@ router.route('/profile')
     res.render('pages/profile', { title: 'Profile', user: req.user });
   });
 
+router.route('/play')
+  .get(auth('user'), function(req, res) {
+    res.render('pages/play', { title: 'Play', user: req.user });
+  });
+
 router.route('/docs')
   .get(auth('user'), function(req, res) {
     res.render('pages/docs', { title: 'Documentation', user: req.user, resources: resources });

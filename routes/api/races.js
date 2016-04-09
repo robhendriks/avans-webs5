@@ -13,10 +13,12 @@ router.route('/')
       promise = Race.paginate(req.find, {
         page: req.query.page || 1,
         limit: req.query.limit || 10,
+        populate: 'author',
         sort: req.sort
       });
     } else {
       promise = Race.find(req.find)
+        .populate('author')
         .sort(req.sort)
         .exec();
     }

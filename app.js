@@ -12,6 +12,8 @@ var dbConfig = require('./config/db');
 require('mongoose').connect(dbConfig.url);
 
 var app = express();
+var server = require('http').Server(app);
+var io = require('./modules/io')(server);
 
 app.engine('hbs', handlebars({ 
   extname: 'hbs', 
@@ -35,4 +37,4 @@ require('./modules/socialAuth')(app, passport);
 app.use('/', require('./routes'))
 app.use('/api/v1', require('./routes/api'));
 
-module.exports = app;
+module.exports = server;
