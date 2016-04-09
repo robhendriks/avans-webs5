@@ -61,9 +61,7 @@
           <h4>Examples</h4>
           {{#each examples}}
             <div class="well well-sm">
-              {{#if prefix}}{{prefix}}{{/if}}
-              {{../../url}}
-              {{#if suffix}}<span class="text-primary">{{suffix}}</span>{{/if}}
+              {{{url}}}
             </div>
             <p>{{{text}}}</p>
           {{/each}}

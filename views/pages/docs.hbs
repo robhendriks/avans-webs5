@@ -10,12 +10,13 @@
 
 <div class="container">
   <div class="rows">
-    <div class="col-md-12">
+    <div class="col-xs-12">
       <h1>API Documentation</h1>
       <p class="lead">We'll handle the REST</p>
-
       {{#each resources}}
-        {{> resource/single}}
+        {{#unless ignore}}
+          {{> resource/single}}
+        {{/unless}}
       {{/each}}
     </div>
   </div>

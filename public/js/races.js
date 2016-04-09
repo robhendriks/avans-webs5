@@ -48,7 +48,7 @@ function getPage(page) {
   $pager.empty();
 
   Request.get('/api/v1/users/{user}/races')
-    .body({page: (page || 1), limit: 5, s: 'created=desc'})
+    .body({page: (page || 1), s: 'created=desc'})
     .call(gotPage);
 }
 
