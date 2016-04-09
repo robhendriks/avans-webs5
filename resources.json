@@ -2,43 +2,56 @@
   {
     "title": "Users",
     "description": "Allows you to access, create and remove users.",
-    "url": "/users",
+    "url": "/api/v1/users",
     "endpoints": [
       {
         "description": "Get all users.",
         "method": "GET",
-        "features": ["HTML", "Pagination"],
-        "parameters": {
-          "page": { 
-            "type": "Number", 
-            "required": false,
-            "description": "Page number"
-          }
-        },
+        "features": ["Paginate", "Query", "Sort"],
         "examples": [
-          { 
-            "suffix":"<code>?page=1</code>", 
-            "text": "Fetches the first page of users." 
-          }
+          { "text": "Get all users." },
+          { "text": "Get all users (paginated).", "suffix": "?page=1" }
         ]
       },
       {
         "description": "Get a specific user.",
-        "method": "GET",
         "url": "/:id",
+        "method": "GET",
+        "features": [],
         "parameters": {
-          "id": { 
-            "type": "String", 
-            "required": true,
-            "description": "User ID" 
-          }
+          "id": { "type": "Number", "required": true, "description": "User ID" }
         },
-        "examples": [
-          { 
-            "suffix":"/<code>1337</code>", 
-            "text": "Fetches the user with ID <code>1337</code>." 
-          }
-        ]
+        "examples": [{ 
+          "text": "Get user with id <code>1337</code>.", "suffix": "/1337" 
+        }]
+      },
+      {
+        "description": "Get all races for a specific user.",
+        "url": "/:id/races",
+        "method": "GET",
+        "features": ["Paginate", "Query", "Sort"],
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "User ID" }
+        }
+      },
+      {
+        "description": "Get autocompletion data for races that belong to specific user.",
+        "url": "/:id/races/autocomplete",
+        "method": "GET",
+        "features": [],
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "User ID" }
+        }
+      },
+      {
+        "description": "Creates a new race that belong to a specific user.",
+        "url": "/:id/races",
+        "method": "POST",
+        "features": [],
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "User ID" }
+        },
+        "body": "{ \"name\": \"Foo\", \"description\": \"Bar\" }"
       }
     ]
   }

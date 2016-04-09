@@ -14,7 +14,7 @@ router.route('/profile')
   });
 
 router.route('/docs')
-  .get(auth('user'), function(req, res) {
+  .get(function(req, res) {
     res.render('pages/docs', { title: 'Documentation', user: req.user, resources: resources });
   });
 

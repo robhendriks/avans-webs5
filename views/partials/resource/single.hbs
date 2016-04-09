@@ -52,10 +52,19 @@
           </div>
         {{/if}}
 
+        {{#if body}}
+          <h4>Body</h4>
+<pre>{{body}}</pre>
+        {{/if}}
+
         {{#if examples}}
           <h4>Examples</h4>
           {{#each examples}}
-            <div class="well well-sm">{{{prefix}}}{{../../url}}{{{suffix}}}</div>
+            <div class="well well-sm">
+              {{#if prefix}}{{prefix}}{{/if}}
+              {{../../url}}
+              {{#if suffix}}<span class="text-primary">{{suffix}}</span>{{/if}}
+            </div>
             <p>{{{text}}}</p>
           {{/each}}
         {{/if}}
