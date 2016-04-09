@@ -1,0 +1,33 @@
+<style>
+  #waypoints i {
+    margin-right: 10px; }
+  #map { 
+    height: 480px; 
+    margin-bottom: 15px;
+  }
+</style>
+
+<div id="race" class="container">
+  <div class="rows">
+    <div class="col-xs-12">
+      <h1 id="raceName" class="page-header"></h1>  
+      <p id="raceDesc" class="lead"></p>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-8">
+      <div id="map"></div>
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Waypoints</h3>
+        </div>
+        <div id="waypoints" class="list-group"></div>
+      </div>
+      <a href="#" id="discover" class="btn btn-sm btn-block btn-success">Discover</a>
+    </div>
+  </div>
+</div>
+
+<script>var raceId = '{{race}}';</script>
+<script src="/js/race.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfbxxUkdgucANPEinDhhbRd5MDPNaCrcQ&libraries=places&callback=initMap" async defer></script>

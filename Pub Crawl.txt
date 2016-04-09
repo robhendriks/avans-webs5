@@ -1,0 +1,25 @@
+Users
+
+[X] GET /api/v1/users?s=created%3Ddesc
+[X] GET /api/v1/users/57078d67d1846a170c087a57
+[X] GET /api/v1/users/57078d67d1846a170c087a57/races?s=created%3Ddesc
+[X] GET /api/v1/users/57078d67d1846a170c087a57/races/autocomplete
+[ ] POST /api/v1/users/57078d67d1846a170c087a57/races
+
+
+Races
+
+[ ] GET /api/v1/races?page=1&s=created%3Ddesc
+[ ] GET /api/v1/races/autocomplete
+[ ] GET /api/v1/races/5707e47085ec98ec286cfef6
+[ ] DELETE /api/v1/races/5707e47085ec98ec286cfef6
+[ ] GET /api/v1/races/5707e47085ec98ec286cfef6/waypoints?s=created%3Ddesc
+[ ] POST /api/v1/races/5707e47085ec98ec286cfef6/waypoints
+
+
+Waypoints
+
+[ ] GET /api/v1/waypoints?s=created%3Ddesc&page=1
+[ ] GET /api/v1/waypoints/5707a122a2a82a6a1646712e
+[ ] DELETE /api/v1/waypoints/5707a122a2a82a6a1646712e
+[ ] GET /api/v1/places/search?lat=51.6891176&lng=5.286312

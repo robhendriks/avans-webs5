@@ -6,13 +6,20 @@ var flash = require('express-flash');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
+var rest = require('./helpers/rest');
 
 var dbConfig = require('./config/db');
 require('mongoose').connect(dbConfig.url);
 
 var app = express();
+var server = require('http').Server(app);
+var io = require('./modules/io')(server);
 
-app.engine('hbs', handlebars({ extname: 'hbs', defaultLayout: 'main' }));
+app.engine('hbs', handlebars({ 
+  extname: 'hbs', 
+  defaultLayout: 'main',
+  helpers: require('./helpers/handlebars')
+}));
 app.set('view engine', 'hbs');
 
 app.use(bodyParser.json());
@@ -28,6 +35,6 @@ require('./modules/localAuth')(app, passport);
 require('./modules/socialAuth')(app, passport);
 
 app.use('/', require('./routes'))
-app.use('/auth', require('./routes/auth'));
+app.use('/api/v1', require('./routes/api'));
 
-module.exports = app;
+module.exports = server;

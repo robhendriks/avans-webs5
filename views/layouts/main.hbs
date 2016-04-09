@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,15 +9,13 @@
   <link rel="stylesheet" href="/css/font-awesome.min.css">
   <link rel="stylesheet" href="/css/app.css">
 </head>
-
-<body class="{{bodyClass}}">
+<body class="{{bodyClass}}" data-spy="scroll" data-offset="70">
   {{> header}}
   {{{body}}}
   {{> footer}}
-
   <script src="/js/vendor/jquery.min.js"></script>
+  <script src="/js/vendor/jquery.timeago.js"></script>
   <script src="/js/vendor/bootstrap.min.js"></script>
   <script src="/js/app.js"></script>
 </body>
-
 </html>

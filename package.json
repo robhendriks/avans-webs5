@@ -9,16 +9,24 @@
     "express-flash": "0.0.2",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.13.0",
+    "googleplaces": "^0.6.0",
+    "handlebars-dateformat": "^1.0.1",
+    "handlebars-intl": "^1.1.2",
     "mongoose": "^4.4.10",
+    "mongoose-paginate": "^5.0.0",
+    "mongoose-validator": "^1.2.4",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.0",
+    "passport-github": "^1.1.0",
+    "passport-google-plus": "^0.5.1",
     "passport-local": "^1.0.0",
-    "passport-twitter": "^1.0.4"
+    "passport-twitter": "^1.0.4",
+    "socket.io": "^1.4.5"
   },
   "scripts": {
     "start": "nodemon bin/www"
   },
   "author": "robhendriks <cyanidenl@icloud.com>",
-  "license": "ISC",
+  "license": "MIT",
   "private": true
 }

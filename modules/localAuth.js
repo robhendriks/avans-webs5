@@ -3,6 +3,13 @@ var User = require('../models/user');
 
 module.exports = function(app, passport) {
 
+  app.use(function(req, res, next) {
+    if (req.isAuthenticated()) {
+      req.user.isAdmin = (req.user.roles.indexOf('admin') !== -1);
+    }
+    next();
+  });
+
   passport.serializeUser(function(user, done) {
     done(null, user._id);
   });

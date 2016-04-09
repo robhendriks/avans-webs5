@@ -1,0 +1,23 @@
+<style>
+  .endpoint-group {
+    padding-bottom: 15px; 
+    border-bottom: 1px #ddd dashed; 
+  }
+  .endpoint-group:last-child {
+    border-bottom: none; }
+
+</style>
+
+<div class="container">
+  <div class="rows">
+    <div class="col-xs-12">
+      <h1>API Documentation</h1>
+      <p class="lead">We'll handle the REST</p>
+      {{#each resources}}
+        {{#unless ignore}}
+          {{> resource/single}}
+        {{/unless}}
+      {{/each}}
+    </div>
+  </div>
+</div>

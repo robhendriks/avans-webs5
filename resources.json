@@ -1,0 +1,189 @@
+[
+  {
+    "title": "Users",
+    "description": "Allows you to access, create and remove users.",
+    "url": "/api/v1/users",
+    "endpoints": [
+      {
+        "description": "Get all users.",
+        "method": "GET",
+        "features": ["Paginate", "Query", "Sort"],
+        "examples": [
+          { 
+            "url": "/api/v1/users",
+            "text": "Get all users." 
+          },
+          { 
+            "url": "/api/v1/users<code>?page=1</code>",
+            "text": "Get all users on the first page." 
+          }
+        ]
+      },
+      {
+        "description": "Get a specific user.",
+        "url": "/:id",
+        "method": "GET",
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "User ID" }
+        },
+        "examples": [{ 
+          "url": "/api/v1/users/<code>1337</code>",
+          "text": "Get user data for ID <code>1337</code>."
+        }]
+      },
+      {
+        "description": "Get all races for a specific user.",
+        "url": "/:id/races",
+        "method": "GET",
+        "features": ["Paginate", "Query", "Sort"],
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "User ID" }
+        },
+        "examples": [
+          {
+            "url": "/api/v1/users/<code>1337</code>/races",
+            "text": "Get all races for user ID <code>1337</code>."
+          },
+          {
+            "url": "/api/v1/users/<code>1337</code>/races?page=1",
+            "text": "Get the first page of races for user ID <code>1337</code>."
+          }
+        ]
+      },
+      {
+        "description": "Get autocompletion data for races that belongs to specific user.",
+        "url": "/:id/races/autocomplete",
+        "method": "GET",
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "User ID" }
+        }
+      },
+      {
+        "description": "Creates a new race that belongs to a specific user.",
+        "url": "/:id/races",
+        "method": "POST",
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "User ID" }
+        },
+        "body": "{ \"name\": \"Foo\", \"description\": \"Bar\" }"
+      }
+    ]
+  },
+  {
+    "title": "Races",
+    "description": "Allows you to access, create and remove races.",
+    "url": "/api/v1/races",
+    "endpoints": [
+      {
+        "description": "Get all races.",
+        "method": "GET",
+        "features": ["Paginate", "Query", "Sort"],
+        "examples": [
+          { 
+            "url": "/api/v1/races",
+            "text": "Get all races." 
+          },
+          { 
+            "url": "/api/v1/races<code>?page=1</code>",
+            "text": "Get all races on the first page." 
+          }
+        ]
+      },
+      {
+        "description": "Get autocompletion data for races.",
+        "url": "/autocomplete",
+        "method": "GET"
+      },
+      {
+        "description": "Get a specific race.",
+        "url": "/:id",
+        "method": "GET",
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "Race ID" }
+        },
+        "examples": [{ 
+          "url": "/api/v1/races/<code>1337</code>",
+          "text": "Get race data for ID <code>1337</code>."
+        }]
+      },
+      {
+        "description": "Deletes a specific race.",
+        "url": "/:id",
+        "method": "DELETE",
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "Race ID" }
+        }
+      },
+      {
+        "description": "Get all waypoints for a specific race.",
+        "url": "/:id/waypoints",
+        "method": "GET",
+        "features": ["Paginate", "Query", "Sort"],
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "Race ID" }
+        },
+        "examples": [
+          {
+            "url": "/api/v1/races/<code>1337</code>/waypoints",
+            "text": "Get all waypoints for race ID <code>1337</code>."
+          },
+          {
+            "url": "/api/v1/races/<code>1337</code>/waypoints?page=1",
+            "text": "Get the first page of waypoints for race ID <code>1337</code>."
+          }
+        ]
+      },
+      {
+        "description": "Creates a new waypoint that belongs to a specific race.",
+        "url": "/:id/waypoints",
+        "method": "POST",
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "Race ID" }
+        },
+        "body": "{ \"name\": \"Foo\", \"lat\": 0.0, \"lng\": 0.0 }"
+      }
+    ]
+  },
+  {
+    "title": "Waypoints",
+    "description": "Allows you to access, create and remove waypoints.",
+    "url": "/api/v1/waypoints",
+    "endpoints": [
+      {
+        "description": "Get all waypoints.",
+        "method": "GET",
+        "features": ["Paginate", "Query", "Sort"],
+        "examples": [
+          { 
+            "url": "/api/v1/waypoints",
+            "text": "Get all waypoints." 
+          },
+          { 
+            "url": "/api/v1/waypoints<code>?page=1</code>",
+            "text": "Get all waypoints on the first page." 
+          }
+        ]
+      },
+      {
+        "description": "Get a specific waypoint.",
+        "url": "/:id",
+        "method": "GET",
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "Waypoint ID" }
+        },
+        "examples": [{ 
+          "url": "/api/v1/waypoints/<code>1337</code>",
+          "text": "Get waypoint data for ID <code>1337</code>."
+        }]
+      },
+      {
+        "description": "Deletes a specific waypoint.",
+        "url": "/:id",
+        "method": "DELETE",
+        "parameters": {
+          "id": { "type": "Number", "required": true, "description": "Waypoint ID" }
+        }
+      }
+    ]
+  }
+]

@@ -1,6 +1,8 @@
 /* Body */
 body {
-  padding-top: 70px; }
+  padding-top: 70px;
+  padding-bottom: 50px;
+}
 body.signin,
 body.signup {
   background-color: #f4f4f4; }

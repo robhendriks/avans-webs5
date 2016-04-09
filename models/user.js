@@ -1,5 +1,9 @@
 var crypto = require('crypto');
 var mongoose = require('mongoose');
+
+var paginate = require('mongoose-paginate');
+var validate = require('mongoose-validator');
+
 var Schema = mongoose.Schema;
 
 var User = new Schema({
@@ -51,6 +55,11 @@ User.virtual('password')
     this.hashedPassword = this.hashPassword(password);
   });
 
+User.virtual('userId')
+  .get(function() {
+    return this._id;
+  });
+
 User.virtual('name.full')
   .get(function() {
     return this.name.first + ' ' + this.name.last;
@@ -65,5 +74,7 @@ User.methods.hashPassword = function(password) {
 User.methods.verifyPassword = function(password) {
   return this.hashPassword(password) === this.hashedPassword;
 };
+
+User.plugin(paginate);
 
 module.exports = mongoose.model('User', User);

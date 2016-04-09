@@ -1,12 +1,29 @@
-var express = require('express');
+var router = require('express').Router();
+
+var resources = require('../resources');
 var auth = require('../modules/auth');
 
-var router = express.Router();
-
-router
-  .route('/')
+router.route('/')
   .get(auth('user'), function(req, res) {
-    res.render('index', { title: 'Dashboard', user: req.user });
+    res.render('pages/index', { title: 'Dashboard', user: req.user });
   });
+
+router.route('/profile')
+  .get(auth('user'), function(req, res) {
+    res.render('pages/profile', { title: 'Profile', user: req.user });
+  });
+
+router.route('/play')
+  .get(auth('user'), function(req, res) {
+    res.render('pages/play', { title: 'Play', user: req.user });
+  });
+
+router.route('/docs')
+  .get(auth('user'), function(req, res) {
+    res.render('pages/docs', { title: 'Documentation', user: req.user, resources: resources });
+  });
+
+router.use('/auth', require('./auth'));
+router.use('/races', require('./races'));
 
 module.exports = router;
