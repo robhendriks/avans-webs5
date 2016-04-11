@@ -6,6 +6,8 @@ var Race = require('../../models/race');
 
 var router = require('express').Router();
 
+var gibPls = 'id email name provider providerId roles';
+
 router.route('/')
   .get(function(req, res, next) {
 
@@ -13,18 +15,23 @@ router.route('/')
     if (req.query.page) {
       promise = User.paginate(req.find, {
         page: req.query.page || 1,
-        limit: req.query.limit || 10,
-        sort: req.sort
+        limit: parseInt(req.query.limit) || 10,
+        sort: req.sort,
+        select: gibPls
       });
     } else {
       promise = User.find(req.find)
+        .select(gibPls)
         .sort(req.sort)
         .exec();
     }
 
     promise
       .then(function(users) {
-        res.json(users);
+        if (req.htmlPlox)
+          res.render('partials/user/list', {results: users, layout: false});
+        else 
+          res.json(users);
       })
       .catch(function(err) {
         next(err);
@@ -41,7 +48,9 @@ router.route('/whoami')
 
 router.route('/:id')
   .get(function(req, res, next) {
-    User.findById(req.params.id).exec()
+    User.findById(req.params.id)
+      .select(gibPls)
+      .exec()
       .then(function(user) {
         if (!user) {
           throw rest.notFound;
@@ -65,7 +74,7 @@ router.route('/:id/races')
         if (req.query.page) {
           return Race.paginate(req.find, {
             page: req.query.page || 1,
-            limit: req.query.limit || 10,
+            limit: parseInt(req.query.limit) || 10,
             sort: req.sort
           });
         }
@@ -75,7 +84,10 @@ router.route('/:id/races')
           .exec();
       })
       .then(function(races) {
-        res.json(races);
+        if (req.htmlPlox)
+          res.render('partials/race/list', {results: races, layout: false});
+        else 
+          res.json(races);
       })
       .catch(function(err) {
         next(err);

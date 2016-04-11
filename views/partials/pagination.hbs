@@ -1,0 +1,7 @@
+{{#if results.pages}}
+  <ul class="pagination">
+    {{#times results.pages}}
+      <li><a href="#" data-page="{{this}}">{{this}}</a></li>
+    {{/times}}
+  </ul>
+{{/if}}

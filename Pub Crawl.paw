@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>07E7FEE9-D069-4EFA-BB85-61CEFB6C57C2</UUID>
-        <nextObjectID>285</nextObjectID>
+        <nextObjectID>291</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -83,7 +83,7 @@
         <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z222"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z225">
-        <attribute name="value" type="string">57078d67d1846a170c087a57</attribute>
+        <attribute name="value" type="string">570bdca88ac96c1100be831f</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z229"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z235"></relationship>
     </object>
@@ -169,12 +169,12 @@
         <attribute name="name" type="string">List</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z230"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z237"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z237 z286"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z237">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">text/html</attribute>
         <attribute name="order" type="int64">0</attribute>
-        <attribute name="name" type="string"></attribute>
+        <attribute name="name" type="string">Accept</attribute>
         <attribute name="enabled" type="bool">1</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -189,9 +189,9 @@
         <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z231"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z239">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">text/html</attribute>
         <attribute name="order" type="int64">0</attribute>
-        <attribute name="name" type="string"></attribute>
+        <attribute name="name" type="string">Accept</attribute>
         <attribute name="enabled" type="bool">1</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -209,10 +209,10 @@
         <relationship name="urlparameters" type="0/0" destination="LMKEYVALUE"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z241">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">text/html</attribute>
         <attribute name="order" type="int64">0</attribute>
-        <attribute name="name" type="string"></attribute>
-        <attribute name="enabled" type="bool">1</attribute>
+        <attribute name="name" type="string">Accept</attribute>
+        <attribute name="enabled" type="bool">0</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -220,7 +220,7 @@
     </object>
     <object type="LMREQUEST" id="z242">
         <attribute name="uuid" type="string">DB0D4D9C-A660-465A-A43E-F2AF08A077D7</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"628BC50E-D4BE-4473-914C-135C22E1D880"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/races?page=1\u2600s=created%3Ddesc"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"628BC50E-D4BE-4473-914C-135C22E1D880"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/races?s=created%3Ddesc"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -231,7 +231,7 @@
         <attribute name="name" type="string">List</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z244"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z239"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z239 z289"></relationship>
     </object>
     <object type="LMREQUEST" id="z243">
         <attribute name="uuid" type="string">92C7135E-C02E-4DF0-BC83-06AD2A2EB3DA</attribute>
@@ -246,7 +246,7 @@
         <attribute name="name" type="string">List</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z240"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z241"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z241 z291"></relationship>
     </object>
     <object type="LMREQUESTGROUP" id="z244">
         <attribute name="uuid" type="string">41F3E349-E2D1-4F7D-8F41-7416EA965A35</attribute>
@@ -271,17 +271,7 @@
         <attribute name="name" type="string">Single</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z230"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z246"></relationship>
-    </object>
-    <object type="LMKEYVALUE" id="z246">
-        <attribute name="value" type="string"></attribute>
-        <attribute name="order" type="int64">0</attribute>
-        <attribute name="name" type="string"></attribute>
-        <attribute name="enabled" type="bool">1</attribute>
-        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z245"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z288"></relationship>
     </object>
     <object type="LMREQUEST" id="z247">
         <attribute name="uuid" type="string">90221947-F5FB-48B3-BBEA-ED68BBD02031</attribute>
@@ -296,7 +286,7 @@
         <attribute name="name" type="string">List</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z248"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z249"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z287 z249"></relationship>
     </object>
     <object type="LMREQUESTGROUP" id="z248">
         <attribute name="uuid" type="string">2AE989F0-068B-4E85-962A-59F82FC86592</attribute>
@@ -309,9 +299,9 @@
         <relationship name="urlparameters" type="0/0" destination="LMKEYVALUE"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z249">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">text/html</attribute>
         <attribute name="order" type="int64">0</attribute>
-        <attribute name="name" type="string"></attribute>
+        <attribute name="name" type="string">Accept</attribute>
         <attribute name="enabled" type="bool">1</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -388,7 +378,7 @@
         <relationship name="variables" type="0/0" destination="LMENVIRONMENTVARIABLE" idrefs="z255"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z260">
-        <attribute name="value" type="string">5707e47085ec98ec286cfef6</attribute>
+        <attribute name="value" type="string">570c096e63f0b6690b76ceb6</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z257"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z255"></relationship>
     </object>
@@ -448,10 +438,10 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z269"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z268">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">text/html</attribute>
         <attribute name="order" type="int64">0</attribute>
-        <attribute name="name" type="string"></attribute>
-        <attribute name="enabled" type="bool">1</attribute>
+        <attribute name="name" type="string">Accept</attribute>
+        <attribute name="enabled" type="bool">0</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -480,7 +470,7 @@
         <attribute name="name" type="string">List</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z266"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z268"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z268 z290"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z271">
         <attribute name="value" type="string"></attribute>
@@ -666,5 +656,65 @@
         <relationship name="bodyparameters" type="0/0" destination="LMKEYVALUE"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE"></relationship>
         <relationship name="urlparameters" type="0/0" destination="LMKEYVALUE"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z286">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z236"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z287">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z247"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z288">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z245"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z289">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z242"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z290">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z270"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z291">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z243"></relationship>
     </object>
 </database>

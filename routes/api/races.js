@@ -12,7 +12,7 @@ router.route('/')
     if (req.query.page) {
       promise = Race.paginate(req.find, {
         page: req.query.page || 1,
-        limit: req.query.limit || 10,
+        limit: parseInt(req.query.limit) || 10,
         populate: 'author',
         sort: req.sort
       });
@@ -25,7 +25,10 @@ router.route('/')
 
     promise
       .then(function(races) {
-        res.json(races);
+        if (req.htmlPlox)
+          res.render('partials/user/list', {results: races, layout: false});
+        else 
+          res.json(races);
       })
       .catch(function(err) {
         next(err);
@@ -95,7 +98,7 @@ router.route('/:id/waypoints')
         if (req.query.page) {
           return Waypoint.paginate(req.find, {
             page: req.query.page || 1,
-            limit: req.query.limit || 10,
+            limit: parseInt(req.query.limit) || 10,
             sort: req.sort
           });
         }
@@ -105,7 +108,10 @@ router.route('/:id/waypoints')
           .exec();
       })
       .then(function(waypoints) {
-        res.json(waypoints);
+        if (req.htmlPlox)
+          res.render('partials/waypoint/list', {results: waypoints, layout: false});
+        else 
+          res.json(waypoints);
       })
       .catch(function(err) {
         next(err);

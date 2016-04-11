@@ -1,0 +1,16 @@
+{{#if results}}
+  <div class="list-group">
+    {{#if results.page}}
+      {{#each results.docs}}
+        {{> race/single}}
+      {{/each}}
+    {{else}}
+      {{#each results}}
+        {{> race/single}}
+      {{/each}}
+    {{/if}}
+  </div>
+  {{> pagination}}
+{{else}}
+  <p>No results.</p>
+{{/if}}
