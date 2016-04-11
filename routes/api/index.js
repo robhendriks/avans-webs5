@@ -1,4 +1,5 @@
 var router = require('express').Router();
+var mongoose = require('mongoose');
 
 var auth = require('../../modules/auth');
 var filter = require('../../helpers/filter');

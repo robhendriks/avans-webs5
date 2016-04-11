@@ -275,7 +275,7 @@
     </object>
     <object type="LMREQUEST" id="z247">
         <attribute name="uuid" type="string">90221947-F5FB-48B3-BBEA-ED68BBD02031</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"628BC50E-D4BE-4473-914C-135C22E1D880"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/users\\/",{"data":{"environmentVariable":"8DCACC51-30C6-4E1C-AF87-CC4E5E690F74"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/races?s=created%3Ddesc"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"628BC50E-D4BE-4473-914C-135C22E1D880"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/v1\\/users\\/",{"data":{"environmentVariable":"8DCACC51-30C6-4E1C-AF87-CC4E5E690F74"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/races?s=created%3Ddesc\u2600page=1\u2600q=name%3DMy%20race"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
