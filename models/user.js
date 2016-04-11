@@ -6,11 +6,27 @@ var validate = require('mongoose-validator');
 
 var Schema = mongoose.Schema;
 
+var emailValidator = [
+  validate({
+    validator: 'isEmail',
+    message: 'Invalid email address'
+  })
+];
+
+var nameValidator = [
+  validate({
+    validator: 'isLength',
+    arguments: [2, 30],
+    message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters'
+  })
+];
+
 var User = new Schema({
   email: {
     type: String,
     unique: true,
-    required: true
+    required: true,
+    validate: emailValidator
   },
   hashedPassword: {
     type: String,
@@ -23,11 +39,13 @@ var User = new Schema({
   name: {
     first: {
       type: String,
-      required: true
+      required: true,
+      validate: nameValidator
     },
     last: {
       type: String,
-      required: true
+      required: true,
+      validate: nameValidator
     }
   },
   provider: {

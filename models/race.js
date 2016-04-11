@@ -5,10 +5,19 @@ var validate = require('mongoose-validator');
 
 var Schema = mongoose.Schema;
 
+var nameValidator = [
+  validate({
+    validator: 'isLength',
+    arguments: [3, 30],
+    message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters'
+  })
+];
+
 var Race = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    validate: nameValidator
   },
   description: {
     type: String,
