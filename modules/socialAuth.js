@@ -10,7 +10,7 @@ module.exports = function(app, passport) {
   passport.use(new GitHubStrategy({
       clientID: 'fc106965d5ee5509053a',
       clientSecret: '67531470a1eac5fa0483dedc006e60f305134181',
-      callbackURL: 'http://localhost:3000/auth/github/callback'
+      callbackURL: 'https://murmuring-stream-48618.herokuapp.com/auth/github/callback'
     },
     function (accessToken, refreshToken, profile, done) {
       User.findOne({
@@ -51,7 +51,7 @@ module.exports = function(app, passport) {
   passport.use(new FacebookStrategy({
       clientID: '490684884448016',
       clientSecret: '8c93e824cc90a746653d1c0efc3b40e3',
-      callbackURL: 'http://localhost:3000/auth/facebook/callback',
+      callbackURL: 'https://murmuring-stream-48618.herokuapp.com/auth/facebook/callback',
       profileFields: ['id', 'displayName', 'email']
     },
     function(accessToken, refreshToken, profile, done) {
