@@ -26,7 +26,7 @@ router.route('/')
     promise
       .then(function(races) {
         if (req.htmlPlox)
-          res.render('partials/user/list', {results: races, layout: false});
+          res.render('partials/race/list', {results: races, layout: false});
         else 
           res.json(races);
       })

@@ -66,12 +66,12 @@
         <attribute name="name" type="string">Default Jar</attribute>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z222">
-        <attribute name="value" type="string"></attribute>
+        <attribute name="value" type="string">murmuring-stream-48618.herokuapp.com</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z228"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z224"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z223">
-        <attribute name="value" type="string">3000</attribute>
+        <attribute name="value" type="string">80</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z228"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z233"></relationship>
     </object>
@@ -83,7 +83,7 @@
         <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z222"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z225">
-        <attribute name="value" type="string">570bdca88ac96c1100be831f</attribute>
+        <attribute name="value" type="string">570bc41390772a1100e7347b</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z229"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z235"></relationship>
     </object>
