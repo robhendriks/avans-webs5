@@ -1,3 +1,3 @@
 module.exports = {
-  url: 'mongodb://localhost/pub-crawl'
+  url: 'mongodb://greenfieldmc.com/pub-crawl'
 };

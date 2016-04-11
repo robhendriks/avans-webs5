@@ -24,7 +24,7 @@
     "socket.io": "^1.4.5"
   },
   "scripts": {
-    "start": "nodemon bin/www"
+    "start": "bin/www"
   },
   "author": "robhendriks <cyanidenl@icloud.com>",
   "license": "MIT",
