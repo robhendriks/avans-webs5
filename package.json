@@ -24,7 +24,7 @@
     "socket.io": "^1.4.5"
   },
   "scripts": {
-    "start": "nodemon bin/www",
+    "start": "bin/www",
     "test": "istanbul cover -x \"modules/* models/* helpers/error.js\" node_modules/mocha/bin/_mocha -- -R spec"
   },
   "author": "robhendriks <cyanidenl@icloud.com>",

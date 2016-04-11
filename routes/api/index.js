@@ -11,7 +11,7 @@ router.use(function(req, res, next) {
 	next();
 });
 
-router.use(auth('user', false));
+// router.use(auth('user', false));
 router.use('/users', require('./users'));
 router.use('/waypoints', require('./waypoints'));
 router.use('/races', require('./races'));
