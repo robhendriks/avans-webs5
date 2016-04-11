@@ -12,6 +12,7 @@ var app = require('../app');
 
 var filter = require('../helpers/filter');
 var handlebars = require('../helpers/handlebars');
+var rest = require('../helpers/rest');
 
 var crypto = require('crypto');
 var auth = require('../modules/auth');
@@ -21,6 +22,23 @@ var Race = require('../models/race');
 var Waypoint = require('../models/waypoint');
 
 describe('Helpers', function() {
+	describe('REST', function() {
+		it('should have status 400', function() {
+			var err = rest.badRequest;
+			expect(err.message).to.equal('Bad Request');
+			expect(err.status).to.equal(400);
+		});
+		it('should have status 401', function() {
+			var err = rest.unauthorized;
+			expect(err.message).to.equal('Unauthorized');
+			expect(err.status).to.equal(401);
+		});
+		it('should have status 404', function() {
+			var err = rest.notFound;
+			expect(err.message).to.equal('Not Found');
+			expect(err.status).to.equal(404);
+		});
+	});
 	describe('Filter', function() {
 		it('should parse filter string', function() {
 			var req = {query: {q: 'foo=bar', s: 'foo=asc,bar=desc'}};
@@ -98,7 +116,103 @@ describe('Models', function() {
 	});
 });
 
+var cookie;
+
 describe('Routes', function() {
+
+	describe('Sign in', function() {
+		it('should redirect to /', function(done) {
+			request(app).post('/auth/signin')
+				.send({email: 'test@example.org', password: 'test'})
+				.expect('Location', '/')
+				.end(function(err, res) {
+					if (err) {
+						return done(err);
+					}
+					cookie = res.headers['set-cookie'].pop().split(';')[0];
+					done();
+				});
+		});
+	});
+
+	describe('Home', function() {
+		it('should load', function(done) {
+			request(app).get('/')
+				.set('Cookie', cookie)
+				.expect(200)
+				.end(function(err, res) {
+					if (err) {
+						return done(err);
+					}
+					done();
+				});
+		});
+	});
+	describe('Profile', function() {
+		it('should load', function(done) {
+			request(app).get('/profile')
+				.set('Cookie', cookie)
+				.expect(200)
+				.end(function(err, res) {
+					if (err) {
+						return done(err);
+					}
+					done();
+				});
+		});
+	});
+	describe('Play', function() {
+		it('should load', function(done) {
+			request(app).get('/play')
+				.set('Cookie', cookie)
+				.expect(200)
+				.end(function(err, res) {
+					if (err) {
+						return done(err);
+					}
+					done();
+				});
+		});
+	});
+	describe('Docs', function() {
+		it('should load', function(done) {
+			request(app).get('/docs')
+				.set('Cookie', cookie)
+				.expect(200)
+				.end(function(err, res) {
+					if (err) {
+						return done(err);
+					}
+					done();
+				});
+		});
+	});
+	describe('Races', function() {
+		it('should load', function(done) {
+			request(app).get('/races')
+				.set('Cookie', cookie)
+				.expect(200)
+				.end(function(err, res) {
+					if (err) {
+						return done(err);
+					}
+					done();
+				});
+		});
+	});
+	describe('Race', function() {
+		it('should not load', function(done) {
+			request(app).get('/races/'+fakeId)
+				.set('Cookie', cookie)
+				.expect(404)
+				.end(function(err, res) {
+					if (err) {
+						return done(err);
+					}
+					done();
+				});
+		});
+	});
 
 	describe('User', function() {
 		describe('List', function() {
@@ -217,6 +331,25 @@ describe('Routes', function() {
 											done(err);
 										})
 								});
+						})
+						.catch(function(err) {
+							done(err);
+						});
+				});
+				it('should be able to visit', function(done) {
+					Race.findOne({name: date}).exec()
+						.then(function(race) {
+								assert.isOk(race);
+
+								request(app).get('/races/'+race.id)
+									.set('Cookie', cookie)
+									.expect(200)
+									.end(function(err, res) {
+										if (err) {
+											return done(err);
+										}
+										done();
+									});
 						})
 						.catch(function(err) {
 							done(err);
@@ -433,7 +566,98 @@ describe('Routes', function() {
 						});
 				});
 			});
-		})
+			describe('Delete', function() {
+				it('should delete an existing waypoint', function(done) {
+					Waypoint.findOne({name: date}).exec()
+						.then(function(waypoint) {
+							assert.isOk(waypoint);
+
+							var waypointCount;
+							Waypoint.find({name: date}).exec()
+								.then(function(waypoints) {
+									waypointCount = waypoints.length;
+
+									request(app).delete('/api/v1/waypoints/'+waypoint.id)
+										.expect(204)
+										.end(function(err, res) {
+											if (err) {
+												return done(err);
+											}
+
+											Waypoint.find({name: date}).exec()
+												.then(function(waypoints) {
+													expect(waypoints.length).to.equal(waypointCount - 1);
+													done();
+												})
+												.catch(function(err) {
+													done(err);
+												});
+										});
+								})
+								.catch(function(err) {
+									done(err);
+								});
+						})
+						.catch(function(err) {
+							done(err);
+						});
+				});
+			});
+		});
+
+		describe('Race', function() {
+			describe('Delete', function() {
+				it('should delete an existing race', function(done) {
+					Race.findOne({name: date}).exec()
+						.then(function(race) {
+							assert.isOk(race);
+
+							var raceCount;
+							Race.find({name: date}).exec()
+								.then(function(races) {
+									raceCount = races.length;
+
+									request(app).delete('/api/v1/races/'+race.id)
+										.expect(204)
+										.end(function(err, res) {
+											if (err) {
+												return done(err);
+											}
+
+											Race.find({name: date}).exec()
+												.then(function(races) {
+													expect(races.length).to.equal(raceCount - 1);
+													done();
+												})
+												.catch(function(err) {
+													done(err);
+												});
+										});
+								})
+								.catch(function(err) {
+									done(err);
+								});
+						})
+						.catch(function(err) {
+							done(err);
+						});
+				});
+			});
+		});
+	});
+
+	describe('Sign out', function() {
+		it('should redirect to /auth/signin', function(done) {
+			request(app).get('/auth/signout')
+				.set('Cookie', cookie)
+				.expect('Location', '/auth/signin')
+				.end(function(err, res) {
+					if (err) {
+						return done(err);
+					}
+					done();
+				});
+		});
 	});
 });
 
