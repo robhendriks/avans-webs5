@@ -26,7 +26,7 @@ function showRaces(err) {
   $races.empty();
 
   if (err) {
-    alert('Unable to get races.');
+    // alert('Unable to get races.');
     return;
   }
 
